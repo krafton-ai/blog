@@ -1,65 +1,51 @@
 ---
 layout: distill
-title: Can LLM Learn Chess with RL?
-description: In recent years, LLMs trained with RL have made remarkable progress in logical reasoning. They have learned to think step by step, reflect on their own errors, and solve challenging tasks like Olympiad-level math problems or debugging complex C++ programs. However, logic alone is not enough for many real-world problems. These problems require strategic reasoning. The ability to plan ahead, anticipate consequences, and make decisions that unfold over time. In this blog post, we explore a simple but important question. Can LLMs learn strategic reasoning through RL? To find out, we look at chess, a game of perfect information, deep tactics, and rich strategic complexity. If a model can learn to play chess well, it may be developing real strategic thinking.
-date: 2025-05-12
+title: 
+description: 우리는 하는 중입니다.
+date: 2025-07-28
 future: true
 htmlwidgets: true
 hidden: false
 
-
-# Anonymize when submitting
 authors:
-  - name: Dongyoon Hwang*
-    url: "https://godnpeter.github.io/"
+  - name: Jongwon Jeong*
     affiliations:
-      name: Krafton, KAIST
-  - name: Hojoon Lee*
-    url: "https://joonleesky.github.io/"
-    affiliations:
-      name: Krafton, KAIST
-  - name: Jongho Park
-    url: "https://jerryjonghopark.github.io/"
-    affiliations:
-      name: Krafton, UC Berkely
-  - name: Dongmin Park
-    url: "https://dongmean.github.io/"
+      name: Krafton, University of Wisconsin-Madison
+  - name: Gyeongman Kim*
     affiliations:
       name: Krafton
-  - name: Jaegul Choo
-    url: "https://sites.google.com/site/jaegulchoo/"
+  - name: Junhyuk Kim*
     affiliations:
-      name: KAIST
-
+      name: Krafton
+  - name: Jaewoong Cho
+    affiliations:
+      name: Krafton
 
 # must be the exact same name as your blogpost
-bibliography: 2025-05-11-chess-llm.bib
+bibliography: 2025-07-28-llm_post_training.bib
 
 # Add a table of contents to your post.
 #   - make sure that TOC names match the actual section names
 #     for hyperlinks within the post to work correctly. 
 #   - please use this format rather than manually creating a markdown table of contents.
 toc:
-  - name: Why Chess?
-  - name: Representing Chess as Text
+  - name: Why do we focus on post-training for reasoning?
+  - name: Off-policy Reinforcement Learning with Verifiable Reward (Off-policy RLVR)
     subsections:
-      - name: FEN (Describing the Board)
-      - name: SAN (Describing the Move)
-      - name: Do LLMs Understand Chess?
-  - name: Zero Shot Evaluation
+      - name: Why do we focus on Off-policy RL (e.g., GRPO)?
+      - name: Off-policy GRPO vs. Supervised Fine-tuning (SFT)
+      - name: Let's try out our experiment
+  - name: Proposed Loss for GRPO: Challenges & Solutions
     subsections:
-      - name: Evaluation Tasks
-      - name: Let's Try it Out
-  - name: Supervised Fine-Tuning
+      - name: Challenges: Considering all positive reasoning trace
+      - name: Proposed method
+      - name: Let's try out our experiment
+  - name: Dataset curation based on OpenThought3
     subsections:
-      - name: Experimental Setup
-      - name: Let's Try it Out
-  - name: RL Fine-Tuning
-    subsections:
-      - name: Experimental Setup
-      - name: Let's Try it Out
-      - name: Distillation from Expert
+      - name: Difficulty-aware sampling
+      - name: Let's try out our experiment
   - name: Lessons and Thought
+
 
 # Below is an example of injecting additional post-specific styles.
 # This is used in the 'Layouts' section of this post.
@@ -86,846 +72,182 @@ _styles: >
     margin-bottom: 0;
   }
 ---
+# Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.
+Affliation: KRAFTON & SKT
 
-In recent years, we’ve seen that **training LLMs with RL can unlock logical reasoning abilities** <d-cite key="guo2025deepseekR1"></d-cite>. When fine-tuned on math and programming tasks, LLMs began to reason step by step, reflect on their own mistakes, and solve complex problems—all without being explicitly programmed to do so.
+
+우리는 여러 추론형 Large Language Models (LLMs) 들의 성능을 더 끌어올리 위해 활용할 수 있는 continual post-training 방법을 제안했습니다.
+[Figure 1]
+
+<!-- 최근 어떤 domain 의 추론에 특화된 다양한 모델이 나오고 있다.
 
 <div style="margin: 0;">
   This progress raises a deeper question:
   <blockquote style="border-left: 4px solid gold; padding-left: 1em; margin-top: 12px; margin-bottom: 0;">
      Is logical reasoning enough for solving real-world problems?
   </blockquote>
-</div>
-
-## Why Chess?
-
-I first got into chess when I was around 10. I’d play after school, sometimes for hours. But my mom didn’t really liked it. She worried it was a distraction from “real” learning. *You should be solving math problems,* she’d say.
-
-But over time, I realized chess was teaching me something valuable. I started approaching problems more systematically. In class debates, I’d think about counterarguments before speaking. When I ran for student council, I planned my campaign like a game; anticipating moves and preparing responses.
-
-Chess wasn’t just about logic. It required planning, foresight, and thinking from the opponent’s perspective. It taught a different kind of reasoning: **strategic reasoning.**
-
-<div style="margin: 0;">
-  That brings us to a new kind of question for today’s AI:
-  <blockquote style="border-left: 4px solid gold; padding-left: 1em; margin-top: 12px; margin-bottom: 0;">
-     If we train an LLM to play chess with RL, can it develop strategic reasoning?
-  </blockquote>
-</div>
-
-If so, the implications go far beyond the chessboard. From writing long-form code to negotiating, debating, or making complex decisions, many real-world tasks require more than logical accuracy. They require strategy.
-
-Chess might be the proving ground.
-
-So, we gave it a shot.
-
-
-## Representing Chess as Text
-
-Before we could train anything, we faced a basic but critical challenge:
-<blockquote style="border-left: 4px solid gold; padding-left: 1em;">
-How do you represent a game of chess in a format an LLM can understand?
-</blockquote>
-Fortunately, we didn’t have to invent anything new. The chess community has been encoding games in text for decades. We used two standard formats:
-- Forsyth–Edwards Notation (FEN): describes the current state of the board.
-- Standard Algebraic Notation (SAN): describes the move the model should make.
-
-Together, they give us a clean text interface: FEN as input, SAN as output.
-
-Let’s break these down.
-
-
-### FEN: Describing the Board
-
-FEN captures the entire state of a chess game in a single line of text. It includes:
-- The piece layout
-- Whose turn it is
-- Castling rights
-- En passant target squares
-- Move number
-
-The most important part of FEN is the board layout, recorded row by row from Black’s side (top) to White’s side (bottom). Each piece is represented by a letter (K for king, Q for queen, N for knight, R for rook, B for bishop, and P for pawn) with uppercase letters for White and lowercase for Black. Numbers are used to indicate consecutive empty squares, making the representation compact and efficient.
-
-Here’s an example:
+</div> -->
 
 <figure style="text-align: center;">
-  <img src="{{ 'assets/img/2025-05-15-llm-chess/chess_board.png' | relative_url }}" style="display: inline-block; width: 60%; height: auto;">
-  <figcaption style="font-size: 1em;">Figure 1: A midgame board state represented in FEN.</figcaption>
+  <img src="{{'assets/img/2025-07-28-llm_post_training/radar_charts.png'| relative_url }}" style="display: inline-block; width: 60%; height: auto;">
+  <figcaption style="font-size: 1em;">Figure 1: Performance Comparision between base LLMs and base LLMs with our method.</figcaption>
 </figure>
 
-can be represented as:
-```
-r1bk3r/p2pBpNp/n4n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1
-```
-
-This compact string tells the model everything it needs to know about the game at this moment.
-
-If you’re curious, the full FEN format is described here: [Wikipedia - FEN](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation).
-
-
-### SAN: Describing the Move
-
-Once the board is described, we need to tell the model what move to make. That’s where SAN comes in.
-
-Standard Algebraic Notation (SAN) is the compact, human-readable way chess players write moves. It usually includes:
-- The piece being moved (omit for pawns),
-- The destination square,
-- Extra symbols if needed (for captures, checks, etc.).
-
-A few examples:
-```
-Nf3: knight to f3.
-Bxf6: bishop captures on f6.
-Qh7#: queen checkmates on h7.
-```
-It’s short and concise, perfect to tokenize for LLM.
-
-
-### Do LLMs Understand Chess?
-
-Before we started training, we ran a sanity check. We asked Qwen2.5-7B:
-
-```
-Do you know Forsyth–Edwards Notation and Standard Algebraic Notation? 
-Please describe in detail.
-```
-
-The response?
-```
-Yes, I'm familiar with both Forsyth–Edwards Notation and Standard Algebraic Notation. 
-These are two common systems used in chess to represent positions and moves.
-
-Let me explain each in detail:
-They are blah blah...
-```
-
-<details markdown="1"><summary>Full Output of explanining FEN</summary>
-```
-Yes, I'm familiar with both Forsyth–Edwards Notation and Standard Algebraic Notation. 
-These are two common systems used in chess to represent positions and moves.
-Let me explain each in detail:
-
-## 1. Forsyth–Edwards Notation (FEN)
-FEN is a standard notation for describing a particular board position in chess.
-It is commonly used in chess software, databases, and engines to store or transmit a specific arrangement of pieces on the board.
-
-### Structure of FEN
-
-A FEN string has six components, separated by spaces:
-
-[Piece placement] [Side to move] [Castling ability] [En passant target square] [Halfmove clock] [Fullmove number]
-
-Let's break down each part:
-
-### 1. Piece Placement
-This describes where all the pieces are on the board.
-
-- It starts from **rank 8 (top row)** and goes down to **rank 1**.
-- Each rank is described from **left to right (file a to h)**.
-- Letters represent pieces:
-  - `K` = King
-  - `Q` = Queen
-  - `R` = Rook
-  - `B` = Bishop
-  - `N` = Knight
-  - `P` = Pawn
-- Uppercase = White pieces, lowercase = Black pieces.
-- Numbers represent empty squares. For example:
-  - `4` means four empty squares.
-  - `2` means two empty squares
-
-### Example of Piece Placement
-
-Let’s take the starting position:
-
-rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
-- Each `/` separates the ranks.
-- The first rank (8th row for White) is `rnbqkbnr` (Black pieces).
-- The third and fourth ranks are empty (`8` each).
-- The last rank is `RNBQKBNR` (White pieces).
-
-### 2. Side to Move
-This is a single character:
-- `w` = White to move
-- `b` = Black to move
-
-Example: `w` means it's White's turn.
-
-### 3. Castling Ability
-Indicates which castling rights are still available.
-
-- `K` = White can castle kingside
-- `Q` = White can castle queenside
-- `k` = Black can castle kingside
-- `q` = Black can castle queenside
-- If no castling is possible, use `-`.
-
-Examples:
-- `KQkq` → All castling rights are intact.
-- `Kq` → White can only castle kingside; Black can only castle queenside.
-- `-` → No castling rights remain.
-
-### 4. En Passant Target Square
-This indicates if an en passant capture is possible after a double pawn push.
-
-- It shows the square where the en passant capture can be made.
-- If no en passant is possible, use `-`.
-
-Example:
-- `e3` means a pawn just moved from e5 to e4, and a pawn on d4 or f4 could capture en passant at e3.
-- `-` means no en passant is available.
-
-### 5. Halfmove Clock
-Counts the number of halfmoves (plies) since the last capture or pawn advance. This is used for the **50-move rule** in chess.
-
-- Resets to `0` when a pawn moves or a piece is captured.
-- Increments by 1 for every other move.
-
-Example: `0` means no captures or pawn moves have occurred in the last 50 moves.
-
-### 6. Fullmove Number
-This is the number of full moves that have been played. Starts at `1`, and increases by 1 after each pair of moves (one for White, one for Black).
-
-Example: `1` means the game is just beginning. After White and Black each make a move, it becomes `2`.
-
-### Complete FEN Example
-
-For the **starting position**, the FEN string is:
-rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-
-Meaning:
-- Board setup as above.
-- White to move.
-- Castling rights for both sides.
-- No en passant.
-- 0 halfmoves since last capture/pawn move.
-- First full move.
-```
-</details>
-
-<details markdown="1"><summary>Full Output of explanining SAN</summary>
-```
-## 2. Standard Algebraic Notation (SAN)
-
-SAN is the standard way to record individual chess moves in a game. It's human-readable and widely used in chess literature, software, and databases.
-
-Each move is written with:
-- A piece symbol (optional),
-- The destination square,
-- Optional modifiers like `x` (capture), `+` (check), `#` (checkmate), `O-O` (castling), etc.
-
-### 📌 Rules of SAN
-
-#### 1. Piece Symbols
-- `K` = King
-- `Q` = Queen
-- `R` = Rook
-- `B` = Bishop
-- `N` = Knight
-- `P` = Pawn (usually omitted)
-
-So, `Ke4` means the king moves to e4.
-
-#### 2. Captures
-A capture is denoted with an `x`. For example:
-- `Bxf7` = Bishop captures on f7.
-- `exd5` = Pawn captures on d5 (from c-file or e-file — more on disambiguation below).
-
-#### 3. Check and Checkmate
-- `+` = Check
-- `#` = Checkmate
-
-Example:
-- `Qh5+` = Queen moves to h5 and gives check.
-- `Rf1#` = Rook delivers checkmate on f1.
-
-#### 4. Castling
-- `O-O` = Kingside castling
-- `O-O-O` = Queenside castling
-Note: These are often written using the letter "O" (not zero).
-
-#### 5. Pawn Promotion
-When a pawn reaches the 8th rank, it is promoted. The notation includes the destination square followed by the new piece:
-- `e8=Q` = Pawn promotes to queen on e8.
-- Sometimes written as `e8Q` in shorthand.
-
-#### 6. Disambiguation
-If two identical pieces can move to the same square, you need to specify which one:
-- Use the file (letter) or rank (number) to distinguish.
-
-Examples:
-- `Nbd2` = Knight on b-file moves to d2.
-- `Rad1` = Rook on a-file moves to d1.
-- If both file and rank are needed: `Rada1` = Rook on a-file and a-rank moves to a1.
-```
-</details>
-
-\
-Fortunately, the model already understands chess notation. It recognizes FEN, parses SAN, and can even discuss the game in abstract terms. 
-
-A promising start.
-
-
-## Zero-Shot Evaluation
-
-Now that we’ve represented chess in a format language models can understand, the next question is:
-<blockquote style="border-left: 4px solid gold; padding-left: 1em;">
-How do we actually evaluate whether an LLM can play chess?
-</blockquote>
-
-Your first instinct might be to let the model play full games. Match LLM against other engines or humans, and estimate its ELO based on wins and losses.
-
-But full games come with headaches. They’re long (40+ moves), high-variance (a single mistake can swing the result), and slow to evaluate. Worse, the feedback is hard to interpret. Did the model win because it understands strategy, or because the opponent made a mistake?
-
-So instead, we broke down chess into **four targeted evaluation tasks**—each designed to isolate and measure a key chess skill: understanding the rules, updating the board, choosing strong moves, and solving tactical puzzles.
-
-Let’s see what today’s pretrained LLMs can do before we teach them anything new.
-
-
-### Evaluation Tasks
-
-**1. Legal Move Similarity**
-<blockquote style="border-left: 4px solid gold; padding-left: 1em;">
-Can the model list all legal moves from a position?
-</blockquote>
-
-This is the model’s version of passing a “rules test.” Given a board state in FEN, can it output all valid next moves in SAN format?
-
-Prompt
-```
-You are a professional chess-playing assistant.
-Given a FEN string, list all legal moves in SAN format.
-```
-Input
-```
-FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
-```
-Expected Output
-```
-f5, e5, d5, Nf6, Nc6, ... (total ~30 legal moves)
-```
-To evaluate this, we use Jaccard Similarity between the model's predicted move set and the ground truth:
-$\text{Jaccard}(A, B) = \frac{|A \cap B|}{|A \cup B|}$
-
-We created a dataset of 100,000 real positions from Lichess games, and used a chess engine to generate the full legal move set for each.
-
-
-**2. Board State Prediction Accuracy**
-<blockquote style="border-left: 4px solid gold; padding-left: 1em;">
-Can the model simulate how the board changes after a sequence of moves?
-</blockquote>
-
-To generate ground-truth data, we sampled 100,000 real positions from Lichess and used a chess engine to enumerate legal moves.
-
-Prompt
-```
-You are a professional chess-playing assistant.
-Given a FEN string and a series of SAN moves, predict the FEN string after moves.
-```
-Input
-```
-FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
-SAN moves: f5 Bc5 nh6
-```
-Expected Output
-```
-rnbqkbnr/ppppp1pp/7n/2b2p2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 3
-```
-
-We generated 100,000 of these examples using real game positions, simulating 1–5 moves per sequence. The model passes if it outputs the exact final FEN.
-
-
-**3. MATE Puzzle Accuracy**
-<blockquote style="border-left: 4px solid gold; padding-left: 1em;">
-Can the model choose the better of two candidate moves?
-</blockquote>
-
-To assess whether the model has actual chess skill, we use MATE (Move on strAtegy and Tactics datasEt)[1]. MATE is a curated dataset where each puzzle presents two plausible moves. One is clearly superior, as judged by Stockfish with a significant evaluation difference.
-
-This setup enables a clean binary classification task: pick the better move.
-
-Prompt
-```
-You are a professional chess-playing assistant.
-You are given a chess board in FEN format.
-Two candidate moves are provided, along with reasoning for each.
-Your goal is to select the better move based on strategy and tactics.
-```
-Input
-```
-FEN: rnbqkbnr/ppppp1pp/7n/2b2p2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 3
-
-Candidate 1: a5. 
-It aims to sacrifice  a piece to clear a file or diagonal adjacent to the enemy king.
-Candidate 2: Bc5. 
-It offers a piece to unblock a diagonal, potentially enabling threats like Bf7 or Qd3.
-
-Which is better?
-```
-Expected Output
-```
-Bc5
-```
-
-We evaluate accuracy as the proportion of cases where the model selects the correct move. We used the MATE's validation set consists of 100,000 examples.
-
-**4. LiChess Puzzle Acc.**
-<blockquote style="border-left: 4px solid gold; padding-left: 1em;">
-Can the model solve real-world tactical puzzles?
-</blockquote>
-
-For our final and most realistic benchmark, we turn to the [Lichess Puzzle Database](https://database.lichess.org/). This massive resource includes millions of real-world positions, each ending in a beautiful tactic or checkmate.
-
-These puzzles are ideal for evaluation because:
-- Puzzles are grounded in real play.
-- They involve non-trivial tactics: Sicilian Defense, Ruy Lopez, Queen's Gambit.
-- Human ELO correlates well with performance.
-
-We selected 50,000 puzzles and decomposed them into individual steps. To count as correct, the model must get every move in a puzzle right.
-
-Prompt
-```
-You are a professional chess-playing assistant.
-You are given a chess board with FEN format.
-Your task is to analyze the position select the best move. 
-
-Use <think>...</think> tags to explain your reasoning. Including:
-  - A strategic evaluation of the position.
-  - A comparison of key candidate moves.
-  - For each candidate, consider the opponent's likely response and outcome.
-
-Use <answer>...</answer> to give the best move in SAN format.
-Only include the move.
-```
-Input
-```
-FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
-Please think step by step.
-```
-Expected Output
-```
-<think>
-White has just played e4. 
-By responding with f5, Black fights for central control and activates the kingside. 
-This also opens lines for future development.
-...
-</think>
-<answer>f5</answer>
-```
-
-We report the percentage of puzzles the model solves completely.
-
-### Let's Try it Out
-
-We evaluated two popular open-source model families:
-- **LLaMA3** (3B, 8B, 70B).
-- **Qwen2.5** (3B, 7B, 70B). 
-
-For baselines, we included:
-- A random policy (as a sanity check)
-- AlphaZero’s policy network (without search).
-
-So... How did they do?
-
-| Model      | Legal Move Sim. ↑ | Board State Acc. ↑ | MATE Acc. ↑ | Lichess Puzzle Acc. ↑ |
-| ---------- | ----------------- | ------------------ | ----------- | --------------------- |
-| Random     | 3.0               | 0.0                | 50.0        | 1.0                   |
-| AlphaZero (policy-net) | -     | -                  | -           | 56.1%                 |
-| LLaMA3-3B  | -                 | -                  | -           | -                     |
-| LLaMA3-8B  | -                 | -                  | -           | -                     |
-| LLaMA3-70B | -                 | -                  | -           | -                     |
-| Qwen2.5-3B   | -                 | -                  | -           | -                     |
-| Qwen2.5-7B   | -                 | -                  | -           | -                     |
-| Qwen2.5-70B  | -                 | -                  | -           | -                     |
-
-
-In short, **terrible.**
-
-Across all tasks, pretrained language models struggled badly. Here’s what we observed:
-- They often missed legal moves, or worse, invented illegal ones.
-- They hallucinated board updates, sometimes placing two kings on the board.
-- In tactical puzzles, they consistently picked the worse of two moves—even ones that led directly to checkmate.
-
-Even the largest models like Qwen2.5-70B and LLaMA3-70B struggled with basic mechanics: how a knight moves, or what happens after a capture.
-
-We tried everything: rewording prompts, adding reasoning steps, providing examples, using ASCII boards. Nothing really helped.
-
-The takeaway is clear: **Pretrained LLMs don’t really understand how to play chess.**
-
-Before we can teach them to plan or strategize with RL, we need to teach them the rules. That’s where supervised fine-tuning comes in.
-
-## Supervised Fine-Tuning
-
-Before we jump into RL, there’s a more immediate goal:
-**Make the model chess-literate.**
-
-That means teaching LLM to:
-- Understand the board,
-- Follow the rules,
-- And reason through moves like a real player.
-
-We’re not aiming for grandmaster play (yet). 
-We just want the model to stop making up nonsense and start thinking like someone who knows how bishops move.
-
-
-### Experimental Setup
-
-**Dataset**
-
-We built a custom dataset of **1 million training examples** designed to teach the fundamentals of chess. It covers four core skills:
-- Legal Move Prediction (200k examples)
-- Board State Prediction (200k examples)
-- MATE puzzle (300k examples)
-- Chess Commentary (300k examples)
-
-Let’s take a look at each.
-
-**1. Legal Move Prediction** 
-
-This task grounds the model in the basic rules. Given a FEN board position, the model must list all legal moves in SAN format.
-
-We sampled real game positions from Lichess and used a chess engine to get the correct move list.
-
-Example:
-```
-You are a professional chess-playing assistant.
-Given a FEN string, list all legal moves in SAN format.
-FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
-Answer: f5, e5, d5, Nf6, Nc6, ... (total ~30 legal moves)
-```
-
-**2. Board state prediction**
-
-This teaches the model to simulate how the game progresses. Given a starting FEN and a short sequence of SAN moves, it must output the final board state in FEN.
-
-Example:
-```
-You are a professional chess-playing assistant.
-Given a FEN string, list all legal moves in SAN format.
-FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
-SAN moves: f5 Bc5 Nh6
-Answer: rnbqkbnr/ppppp1pp/7n/2b2p2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 3
-```
-
-**3. MATE Puzzle**
-
-This task is designed to build tactical intuition. Each puzzle presents two reasonable candidate moves, along with explanations for why each one might be good. However, only one move is clearly superior. The model's job is to read the explanations and choose the better move based on strategic and tactical reasoning.
-
-In the MATE dataset, all move explanations were generated by GPT-4 using prompts carefully designed in collaboration with former Women’s World Chess Champion Hou Yifan. This setup ensures that the explanations reflect deep, high-quality chess insight rather than superficial heuristics.
-
-Example:
-```
-You are a professional chess-playing assistant.
-You are given a chess board in FEN format.
-Two candidate moves are provided, along with reasoning for each.
-Your goal is to select the better move based on strategy and tactics.
-
-FEN: rnbqkbnr/ppppp1pp/7n/2b2p2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 3
-
-<think>
-Candidate 1: a5. It aims to sacrifice a piece to clear a file near the enemy king.
-Candidate 2: Bc5. It opens a diagonal that could enable threats like Bf7 or Qd3.
-</think>
-<answer>
-Bc5
-</answer>
-```
-
-**4. Chess Commentary**
-
-This task teaches the model to reason like a human player. That means going beyond labeling a move as good or bad. We want the model to explain why a move works, what might happen if it's played, what alternatives exist, and how the position could unfold.
-
-To make this possible, we turned to GameKnot, an online chess platform where players upload their games and annotate each move with detailed commentary. It is a rich source of strategic thinking, offering insight into how people evaluate positions, anticipate threats, and make decisions.
-
-We collected thousands of annotated games and filtered for comments with at least 50 words. This ensured the examples contained in-depth analysis rather than surface-level explanations.
-
-Example:
-```
-You are a professional chess-playing assistant.
-You are given a FEN string and a SAN move.
-Your goal is to explain the move from a strategic perspective.
-
-FEN: rnbqkbnr/ppppp1pp/7n/2b2p2/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 2 3
-SAN: Qe7
-
-<think>
-The game-losing blunder, but one could hardly blame Thomas for missing this one in blitz! 
-10...Bxe5, giving up the Bishop Pair to remove White's monster Knight on e5, is pretty much forced. 
-Now in this position, after the text move (10...Qe7??) and the supposed 11.Nxf6 gxf6 (not 11...Rxf6?? 12.Qxh7 Kf8 13.Qh8#) the Black Queen covers h7. 
-I actually had the rare privilege of playing this same game against a computer on the Internet Chess Club. 
-The crazy thing was the computer, rated around 2100, fell victim to the "horizon effect", 
-a well-known phenomenon where a chess engine cannot "see" the final mate position because it simply cannot calculate far enough into the position (beyond its horizon). 
-In this position, the engine probably calculated 6 moves ahead and assessed that Black is "safe" after 10...Qe7, since h7 is guarded and there is no way to force mate in 6. 
-But there IS a way to force mate in 7, if you look beyond the horizon! Drum roll...
-</think>
-```
-
-**Training**
-
-We fine-tuned Qwen2.5-7B using LLaMA Factory, with full parameter tuning (no adapters). Here are the details:
-- Model: Qwen2.5-7B.
-- Data size: 1M.
-- Compute: 8× A100 80GB GPUs.
-
-Hyperparameters:
-- dype: bf16
-- learning rate: 5e-5
-- epochs: 3
-- batch size: 256
-- optimizer: AdamW
-
-
-### Let's Try it Out
-
-Let’s see how much the model improved after supervised fine-tuning:
-
-| Model      | Legal Move Sim. ↑ | Board State Acc. ↑ | MATE Acc. ↑ | Lichess Puzzle Acc. ↑ |
-| ---------- | ----------------- | ------------------ | ----------- | --------------------- |
-| Random     | 3.0               | 0.0                | 50.0        | 1.0                   |
-| AlphaZero (policy-net) | -     | -                  | -           | 56.1%                 |
-| Qwen2.5-7B   | -                 | -                  | -           | -                     |
-| Qwen2.5-70B  | -                 | -                  | -           | -                     |
-| Qwen2.5-7B-chess-sft| -              | -                  | -           | -                     |
-
-
-Fine-tuning worked—really well.
-- Legal Move Prediction jumped from 11% to 85%.
-- Board State Accuracy soared past 90%, showing the model learned game mechanics.
-- MATE Accuracy rose to 76%, a huge leap in tactical reasoning.
-- Lichess Puzzle Accuracy climbed from <4% to 47%. It gets closer to beginner-level humans.
-
-After fine-tuning, the model no longer invents moves or forgets the rules. It thinks like a chess player—at least for a few moves ahead.
-
-## RL Fine-Tuning
-
-So now, the next question is:
-<blockquote style="border-left: 4px solid gold; padding-left: 1em;">
-Can RL teach LLMs to think strategically—like a real chess player?
-</blockquote>
-
-Time to find out.
-
-### Experimental Setup
-
-To fine-tune our model through RL, we used lichess puzzles as our learning environment. 
-
-**Dataset: Lichess Puzzle**
-
-We used a collection of 300,000 puzzles from the Lichess Puzzle Database, which expands to around 1,000,000 unique board positions. Each puzzle is presented as a reasoning task: the model must analyze the board, explore possible moves, and choose the best one.
-
-prompt
-```
-You are a professional chess-playing assistant.
-You are given a chess board with FEN format.
-Your task is to analyze the position select the best move. 
-
-Use <think>...</think> tags to explain your reasoning. Including:
-  - A strategic evaluation of the position.
-  - A comparison of key candidate moves.
-  - For each candidate, consider the opponent's likely response and outcome.
-
-Use <answer>...</answer> to give the best move in SAN format.
-Only include the move.
-
-FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1
-Please think step by step.
-```
-
-And the expected output looks like:
-```
-<think>
-Black has several options here, but the most promising is to contest the center immediately...
-</think>
-<answer>
-f7
-</answer>
-```
-
-**Models: Qwen2.5-7B**
-
-We tested two versions of the model:
-- Qwen2.5-7B-base: a pretrained LLM with no chess-specific knowledge.
-- Qwen2.5-7B-chess-sft: the same model, but with supervised fine-tuning on our chess tasks.
-
-**Algorithm: GRPO**
-
-To fine-tune our model with RL, we used a GRPO (Group Relative Policy Optimization) algorithm.
-
-GRPO is a policy optimization algorithm designed specifically for language models. Instead of relying on a complex value function to estimate how good each output is, GRPO compares groups of responses and rewards the ones that perform better than their peers.
-
-It’s a bit like running a mini tournament every training step, and picking the winners.
-
-GRPO optimizes the following objective:
+## Why do we focus on post-training for reasoning?
+Large text corpus로 학습하는 LLM의 사전학습(pre‑training) 은 언어의 통계적 패턴과 구조를 이해하는 데 큰 역할을 합니다.
+하지만 단계를 거쳐야 하는 복잡한 논리 추론, 수학적 문제 해결, 또는 코드 작성과 같은 작업에서는 충분하지 않습니다.
+예컨대 Chain-of-Thought (CoT)를 쓰면 어느 정도 추론 과정을 모방하게 할 수 있지만, 이는 모델이 일관된 사고 흐름을 자기 것으로 내재화한 것이 아니라 성능의 한계가 존재합니다.
+
+이런 한계를 극복하기 위한 post-training 방법 중 하나로 Reinforcement Learning with Verifiable Rewards (RLVR) 이 있습니다.
+이 방식의 post-training이 LLM의 추론 강화에 효과적이라는 사실은 DeepSeek-R1 이나 OpenAI의 o1/o3 모델과 같은 모델들이 RLVR 방식을 통해 실질적인 추론 성능향상을 보이면서 더 각광을 받게 되었습니다.
+RLVR은 LLM이 생성한 전체 추론 과정—chain-of-thought (CoT) 형태의 rollout trajectory—이 검증 가능해야 합니다.
+예를 들어, 수학 문제의 정답이 있어서 최종 정답이 비교가 되거나, 각 단계에 대한 평가가 가능해, 생성된 rollout trajectory 전체에 대해 보상(reward)을 줄 수 있는 구조입니다.
+이런 보상을 바탕으로, RL 알고리즘(e.g., PPO, GRPO)을 통해, LLM은 검증된 추론 과정을 더 많이 생성하도록 학습되게 됩니다.
+
+대표적인 RLVR 방식의 학습 알고리즘으로는 Group Relative Policy Optimization (GRPO) 방식이 있습니다.
+이 방식은 동일 질문에 대해 샘플링한 여러 rollout trajectory들의 그룹의 평균 보상을 기준으로 삼아 각 응답의 상대적 advantage를 계산합니다.
+이의 objective $\mathcal{L}$을 수식으로 표현하면 아래와 같습니다:
 
 $$
-J(\theta) = \mathbb{E} \left[ \min \left( \frac{\pi_\theta(a)}{\pi_{\text{old}}(a)} \hat{A}, \text{clip} \left( \frac{\pi_\theta(a)}{\pi_{\text{old}}(a)}, 1 - \epsilon, 1 + \epsilon \right) \hat{A} \right) - \beta \cdot \text{KL}[\pi_\theta || \pi_{\text{ref}}] \right]
+\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{old}}(O|q)]}\left[
+\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\right]
 $$
 
-where:
-* $\pi_\theta$ is the current model’s policy.
-* $\pi_{\text{old}}$ is the policy from the last iteration.
-* $\hat{A}$ is the relative advantage. How much better a response is compared to others.
-* The clipping term prevents overly large updates, ensuring stability.
-* The KL penalty keeps the new policy close to a reference policy (e.g., the supervised model), so the model doesn’t drift too far during training.
+여기서, $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,<t})$이며, $G$는 한 그룹 내 응답 개수를 의미합니다. 또한, $\pi_{ref}$, $\pi_{\theta}$, $\pi_{old}$는 각각 기준(reference) LLM, 학습 중인 LLM, 샘플링 하는 바로 직전 step LLM을 나타냅니다. $q$와 $\{o_i\}_{i=1}^{G}$는 학습에 사용되는 질문과 생성된 rollout trajectory 세트를 나타냅니다.
+각 응답의 상대적 advantage인 $\hat{A}_i$는 다음과 같이 계산됩니다.
 
-**Reward**
+$$
+\hat{A}_i = \frac{r_i - \text{mean}(r_i)}{\text{std}(r_i)}
+$$
 
-To guide learning, we defined a composite reward:
+이렇게 계산된 trajectory level 의 advantage는 응답의 각 토큰 수준에 적용되어 최종적으로 $\hat{A}_{i,t}$로 사용됩니다.
 
-$r = \lambda_1 \cdot r_{\text{answer}} + \lambda_2 \cdot r_{\text{format}} + \lambda_3 \cdot r_{\text{language}}$
+## Off-policy Reinforcement Learning with Verifiable Reward (Off-policy RLVR)
+### Why do we focus on Off-policy RLVR (e.g., GRPO)?
+앞서 설명한 RLVR 의 경우는 on-policy 로 advantage를 업데이트 하는 방식입니다.
+On-policy 의 경우, 학습하는 모델이 뽑아낸 roll-out trajectory 에 대해 reward 를 계산해 이를 통해 LLM을 업데이트 한다는 것을 의미합니다.
 
-* Answer Correctness ($r_{\text{answer}}$): 1 if the move is optimal, 0 otherwise.
-* Format Validity ($(r_{\text{format}}$): 1 if the response includes both <think> and <answer> tags in the correct format, 0 otherwise.
-* Language Consistency ($r_{\text{language}}$): Following DeepSeek, we observed that models sometimes output mixed-language responses. We used spaCy’s `en_core_web_lg` to detect language consistency. If the entire output is in English, the reward is 1; otherwise, 0.
+하지만, on-policy로 학습하는 것에는 두가지 단점이 존재합니다.
+첫번째 단점은 학습 속도가 매우 느리다는 것입니다. [ReMix 논문]
+이 이유는 매 스텝 loss 를 계산할 때 roll-out 을 각 문제마다 $G$ 개수만큼 해야하기 때문입니다.
+또한, on-policy 는 기존 base LLM 성능에 한계가 제한됩니다. [Luffy 논문]
+기존 base LLM 의 성능이 낮으면 정답 trajectory 를 뽑을 확률이 낮아져 성능 향상의 bottleneck 이 생길 수 있기 때문입니다.
 
-This combination rewards not just correctness but also clear structure and coherent reasoning.
+On-policy 의 문제들을 해결하기 위해, 저희는 정답 label 을 뽑기 위해 쓴 teacher LLM의 roll-out trajectory 를 활용하는 off-policy RLVR 방식을 도입했습니다.
+저희가 이번 프로젝트에 활용한 데이터는 OpenThought3 [OpenThought3 논문] 데이터셋입니다.
+OpenThought3는 Math, Code, Science 등에 관련된 문제들에 대해 teacher model 인 QwQ-32B 모델을 이용해 sampling 을 16번씩 진행해 만든 데이터입니다.
+이 중, 저희는 정답이 확실한 Math 에 대해서만 먼저 filtering 하여 준비했습니다.
+그 뒤, 각 문제마다 Majority Voting [Majority voting 논문] 을 이용해 정답으로 간주될 수 있는 답들을 찾고, 이를 바탕으로 각 trajectory 의 reward 를 계산하였습니다.
 
+이 때, Teacher model 을 $\theta_{teacher}$ 라고 하고, teacher가 정답 label을 뽑기 위해 roll-out 한 문제들의 random variable을 $Q$ 라고 할 때, 우리는 off-policy GRPO를 아래와 같이 수식을 쓸 수 있습니다:
 
-**Training**
+$$
+\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\right]
+$$
 
-We used the VERL framework for fine-tuning, with full parameter updates.
-- Model: Qwen2.5-7B or Qwen2.5-7B-chess-sft.
-- Data size: 1M.
-- Compute: 8× A100 80GB GPUs.
+이 때, practical 하게 teacher 의 probability 를 모르기 때문에, $\theta_{teacher}^{i,t}=1$ 로 가정하였습니다.
+그러면 항상 $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}} \le 1$ 이기 때문에, $\text{clip}$ 은 $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$ 로 표현될 수 있습니다.
+최종적으로, practical하게 off-policy 에 해당하는 GRPO 수식은 아래와 같이 근사될 수 있습니다. [Luffy 논문]
 
-Hyperparameters:
-- Max response length: 2048
-- Prompts per rollout: 128
-- Responses per prompt: 8
-- Training steps: 500
-- Batch size: 32
-- Learning rate: 1e-6
-- Optimizer: AdamW
-- kl coefficient: 0.001
+$$
+\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
+\min\left[\pi_{\theta}^{i,t}\hat{A}_{i,t},\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\right]
+$$
 
-We explored various hyperparameter settings and report the best-performing configuration above.
+### Off-policy GRPO vs. Supervised Fine-tuning (SFT)
 
-### Let's Try it Out
+제일 간단하게 off-policy 로 준비된 teacher sample 로 학습한다는 것은 SFT를 하는 것으로 생각할 수 있습니다.
+그러면 SFT 와 Off-policy GRPO 는 무슨 차이가 있을까요?
+아래의 표현된 SFT 수식과 off-policy GRPO 의 수식을 비교하면 그 차이를 알 수 있습니다.
 
-Here’s what happened during training.
+$$
+\mathcal{L}_{SFT}(\theta) = \mathbb{E}_{[q \sim P(Q),\,o \sim \pi_{\theta_{teacher}}^{(+)}(O|q)]}\left[
+\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{<t})
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]
+\right]
+$$
 
-[Tensorboard Learning Curve]
+여기서, $\pi_{\theta_{teacher}}^{(+)}(O|q)$는 teacher가 생성한 샘플 중에서 positive reward를 갖는 샘플만 선택했음을 나타냅니다.
+이를 통해 모델은 오로지 positive 샘플의 분포를 따라가도록 지도학습을 수행하게 됩니다.
 
-Learning curves from TensorBoard show a clear upward trend. As training progresses, the model starts generating longer, more structured reasoning traces, and its accuracy improves from around 10% to 30%.
+Practical하게 근사한 off-policy GRPO 수식과 비교했을 때, 우리의 Off-policy GRPO 수식은 negative 에 해당하는 sample 또한 반영된다는 점입니다.
+Off-policy GRPO 에서는 positive 와는 계속 가까워지게 학습을 하며, 반대로 negative 와는 멀어지게 학습을 하는 구조가 됩니다.
+이로 인해 논리적으로 틀려 가지 않아야 할 rollout trajectory 에 멀어지게 되어, 더 추론 능력이 강화될 수 있습니다.
+이 사실을 아래 실험을 통해 확인해 보았습니다.
 
-Let’s check how the model reasons at different stages of training.
-
-**0 steps:** Not good reasoning.
-
-```
-<think>
-1. The position is in the middle game, with black to move.
-2. Black's king is in the center, and the rook on h8 is a potential threat.
-3. The black queen is on h7, which is a good position to control the center and the d5 square.
-4. The black pawn on g6 is a potential target for the white knight on f3.
-5. The white king is on e1, and the white rook on a1 is a potential threat to the black king.
-6. The best move for black should be to protect the g6 pawn and control the center.
-</think>
-<answer> 
-g6h7
-</answer>
-```
-
-**100 steps:** Start to do the breath first search.
-
-```
-<think>
-Ba5: Defends h2 and supports the pawn on f6.
-Bb4: Also supports pawns and opens up Black's king-side.
-Ke2: Protects f2 and looks to push with g4 or h4.
-Kc2: Protects f2 and looks to push with g4 or h4.
-Ke1: Helps with the defense of h2.
-
-Ba5 and Bb4 are strong choices as they both threaten to open up lines and potentially improve the position.
-Both moves defend crucial squares (h2 for Ba5 and f2 for Bb4) and open up the bishop for future play. 
-The best move here is to defend key squares and prepare for offense with a developed piece.
-</think>
-<answer>
-Ba5
-</answer>
-```
-
-**500 steps:** More in-depth breath first search. evlauating much more candidates
-
-```
-<think>
-Candidate Moves:
-Rh8: Attacks the white pawn on h2 and supports the rook on f7.
-Rg8: Similar to Rh8 but more focused on the center.
-Re8: Attacking the white pawn on e2.
-Rd8: Supports the rook on f7 and pressures the white pawn on d2.
-Rc8: Centers the rook and supports the pawn on c7.
-Rb8: Centers the rook and supports the pawn on b7.
-Ra8: Centers the rook and supports the pawn on a7.
-Rf7: A strong move, pinning the white queen to the king.
-Rf6: Centers the rook and supports the pawn on f7.
-Rf5: Centers the rook and supports the pawn on f7.
-Rf4+: Pins the white queen to the king.
-Rf3: Centers the rook and supports the pawn on f7.
-Rff2: Supports the rook on f7 and adds pressure.
-Rf1: Centers the rook and adds pressure.
-Kh8: Just moves the king to safety.
-Kg8: Moves the king to safety.
-Rg5: Centers the rook and adds pressure.
-Rg4+: Attacks the white king and pins the queen.
-Rg3: Centers the rook and adds pressure.
-Rh2: Supports the rook on f7 and adds pressure.
-Rgf2: Supports the rook on f7 and adds pressure.
-Re2+: Attacks the white king and adds pressure.
-Rd2: Supports the rook on f7 and adds pressure.
-Rc2: Centers the rook and adds pressure.
-
-Evaluation of Candidate Moves:
-Rf7 and Rf4+ are strong as they pin the white queen to the king, putting heavy pressure.
-Rg4+ is particularly strong as it pins the white queen and aims at the king.
-h5 and g5 are strong as they weaken key pawns for the white side.
-The other moves either center the rook or add pressure to pawns but do not offer the same strategic benefit as pinning the queen.
-Final Choice:
-Rg4+ is the best move as it pins the white queen to the king, offering an immediate threat. 
-</think>
-<answer>
-Rg4+
-</answer>
-```
+### Let's try out our experiment
+위의 사실은 아래의 실험을 통해 확인이 되었습니다.
 
 
+## Proposed Loss for RLVR: Challenges & Solutions
+### Challenges: Considering all positive reasoning trace
+Off-policy GRPO 는 그럼 문제가 없을까요?
+아닙니다. 이유는 roll-out trajectory 가 all positive인 sample의 Advantage 값에 있습니다.
+실제로 어떤 quesiton에 대해서는 전부 다 positive 인 sample 이 존재 할 수 있습니다.
+이런 데이터의 경우 advantage 값을 계산하게 되면 mean reward 가 1 이 되어 0이 되고, 그러면 그 sample 들에 대해서는 update 가 되지 않습니다.
 
-But that was it, even after much longer training, **performance plateaus at 30%.** 
-Not so great.
+On-policy 의 경우에서는 이런 all positive sample 들이 부분이 문제가 안됩니다.
+왜냐하면 이미 모델이 잘하는 경우라 update 를 하지 않아도 되기 때문입니다.
+
+하지만, 반대로 Off-policy 의 경우에는 all positive sample 들을 학습하지 않는 것이 도움이 되지 않는 경우가 있습니다.
+Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우를 생각해 보겠습니다.
+이 경우, teacher sample 은 전부 다 positive 여서 reward 가 1이지만, 실제 그 문제에 대해 저희가 학습할 target 모델은 틀린 sample 을 생성할 가능성이 높을 수 있습니다.
+하지만 현재 Objective 로는 이 부분을 고려하지 못하고, 결국 배워야 할 rollout trajectory 에 대해 학습하지 못함을 의미합니다.
+
+저희가 준비한 데이터에서 이 문제가 있음을 아래 그림을 통해 확인이 되었습니다.
+
+<figure style="text-align: center;">
+  <img src="{{'assets/img/2025-07-28-llm_post_training/figure_2.png'| relative_url }}" style="display: inline-block; width: 60%; height: auto;">
+  <figcaption style="font-size: 1em;">Figure 2. Statistics that although teacher can generate all positive answers, but base model cannot perfectly answer. </figcaption>
+</figure>
+
+### Proposed method
+위 문제를 해결하기 위해, 저희는 all positive roll-out trajectory 인 경우에는 advantage 에 bias term 인 $b$를 추가하는 simple 한 변형 loss term 을 제안하였습니다.
+제안 방식을 통해 all positie 인 sample 이 나올 때도 그 sample 들에 대해 update 가 되도록 해주어서, all positive reasoning trace를 반영하지 못하는 문제를 해결합니다.
+자세한 수식은 아래와 같습니다.
+
+$$
+\mathcal{L}_{ours}(\theta) =
+\begin{cases}
+\mathbb{E}\left[
+\frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
+\left\{
+\min\left[\pi_{\theta}^{i,t}(\hat{A}_{i,t} + b), \max(\pi_{\theta}^{i,t}, 1-\epsilon)(\hat{A}_{i,t} + b)\right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+\right\}
+\right] & \text{if all } r_{i} > 0 \\
+\\
+\mathbb{E}\left[
+\frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
+\left\{
+\min\left[\pi_{\theta}^{i,t} \hat{A}_{i,t}, \max(\pi_{\theta}^{i,t}, 1-\epsilon)\hat{A}_{i,t}\right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+\right\}
+\right] & \text{otherwise}
+\end{cases}
+$$
+
+저희는 $b=0.5$ 로 setting 을 하고 실험을 진행했습니다.
 
 
+### Let's try out our experiment
+위 방식이 정말 도움이 될지 확인을 해보았습니다.
 
-However, even we trained much more still bfs. not dfs!!! not anticipating future moves.
+도움이 됨을 확인했습니다. 그렇다면, MATH 말고 다른 성능은 어떻게 될까요?
+아래 표를 통해 보니, 성능이 보존되거나 좋아지는 부분이 있음을 추가적으로 확인했습니다.
 
-What's the problem?
+<!-- ## Dataset Curation for Our Method
+### Difficulty-aware sampling
+### Let's try out our experiment -->
 
-maybe chess puzzle is too difficult?
-It may not recieve the good signal at all? 
-since average move has around 30 possible candidate per move maybe model struggle to get the feedback for not selecting the **optimal move** while it still provides quite reasonable sub-optimal move.
-
-Thus, we desinged a better way to design reward model so that language model can recieve signal for suboptimal move.
-
-### Recieving Reward from an Expert
-
-Goal was to provide reward of chosing better move than previously even if it does not 
-
-
-
-[Tensorboard Learning Curve]
-
-
-
-
-## Lessons and Thoughts
-
-
-
-
-
-
-
-# Acknowledgments
-
-Thank you for Taehwan Kwon and Jungkwan Lee for helpful discussion of this work. 
-
-
-
-
+## Lessons and Thought
