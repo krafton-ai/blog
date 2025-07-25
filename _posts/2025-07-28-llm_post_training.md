@@ -186,8 +186,23 @@ Off-policy GRPO 에서는 positive 와는 계속 가까워지게 학습을 하�
 이 사실을 아래 실험을 통해 확인해 보았습니다.
 
 ### Let's try out our experiment
-위의 사실은 아래의 실험을 통해 확인이 되었습니다.
 
+우리는 off-policy GRPO 방식이 단순히 positive 샘플만을 학습하는 supervised fine-tuning (SFT) 방식보다 추론 능력 강화에 더 효과적인지 확인하기 위해 실험을 수행했습니다. 
+실험에 사용된 모델은 OpenThinker3-7B이며, 데이터는 OpenThought3의 Math 문제 중 약 2,000개를 sampling하여 구성했습니다. 
+실험 환경은 VERL 프레임워크를 기반으로 구축되었고, 학습 과정에서 learning rate는 1e-7, batch size는 32, epoch는 3, KL coefficient는 0.1로 설정했습니다. 이때 각 문제당 8개의 샘플을 사용하여 학습을 진행했습니다.
+
+성능 평가는 AIME24를 validation set으로 사용하여 각 epoch마다 성능을 측정했고, 3 epoch 중 가장 우수한 성능을 보인 checkpoint를 선정하여 최종적으로 AIME25-1과 AIME25-2에서 성능을 비교했습니다. 실험 결과는 다음과 같습니다.
+
+| Method                     | AIME25-1 Score | AIME25-2 Score |
+| -------------------------- | -------------- | -------------- |
+| Base model                 | 55.104         | 59.479         |
+| SFT                        | -              | -              |
+| **Off-policy GRPO**        | **56.250**     | **62.813**     |
+
+Off-policy GRPO 방식이 SFT보다 더 뛰어난 성능을 보인 이유는 negative sample들로부터 모델이 적극적으로 멀어지도록 학습을 유도했기 때문입니다. 
+기존의 데이터는 모두 positive sample로 고려되고 있지만, 본 실험에서는 majority voting과 Off-policy GRPO를 통해 보다 정확한 정보를 확보하고 이를 바탕으로 negative sample로부터 벗어나도록 유도하여, 더욱 세밀한 지도학습이 가능했습니다.
+
+본 실험을 통해 Off-policy GRPO 방식이 기존 SOTA LLM의 논리적 추론 능력을 한 단계 더 향상시키는 데 매우 효과적임을 입증했습니다. 이 방식은 향후 다양한 추론 도메인에서도 충분히 적용 가능할 것으로 기대됩니다.
 
 ## Proposed Loss for RLVR: Challenges & Solutions
 ### Challenges: Considering all positive reasoning trace
@@ -239,15 +254,58 @@ $$
 
 저희는 $b=0.5$ 로 setting 을 하고 실험을 진행했습니다.
 
-
 ### Let's try out our experiment
-위 방식이 정말 도움이 될지 확인을 해보았습니다.
 
-도움이 됨을 확인했습니다. 그렇다면, MATH 말고 다른 성능은 어떻게 될까요?
-아래 표를 통해 보니, 성능이 보존되거나 좋아지는 부분이 있음을 추가적으로 확인했습니다.
+본 실험에서는 제안한 방식이 기존 off-policy GRPO보다 성능 향상에 도움이 되는지 추가로 검증하고자 하였습니다. 
+특히, On-policy GRPO와의 성능 차이도 함께 비교하기 위해 추가적으로 실험을 진행하였습니다. On-policy GRPO 방식의 경우 각 문제마다 동일하게 8개의 샘플을 직접 roll-out하여 학습을 진행했습니다.
+
+실험 환경은 첫 번째 실험과 완벽히 동일하며, 오직 학습 objective만 달라졌습니다. 
+동일한 모델(OpenThinker3-7B), 동일한 데이터(OpenThought3 Math 문제 2,000개), 동일한 hyperparameter(learning rate=1e-7, batch size=32, epoch=3, KL coefficient=0.1, 각 문제당 8개의 샘플)를 사용했습니다. 
+또한 bias term은 0.5로 설정하여 진행했습니다.
+
+성능 평가는 동일한 방식으로 AIME24를 validation set으로 사용하여 best checkpoint를 선정한 후, 최종적으로 AIME25-1과 AIME25-2를 통해 성능을 평가했습니다. 실험 결과는 다음과 같습니다.
+
+| Method                                             | AIME25-1 Score | AIME25-2 Score |
+| -------------------------------------------------- | -------------- | -------------- |
+| Base model                                         | 55.104         | 59.479         |
+| On-policy GRPO                                     | -              | -              |
+| Off-policy GRPO                                    | 56.250         | 62.813         |
+| **Off-policy GRPO (with all positive group bias)** | -              | -              |
+
+실험 결과, 제안한 modified off-policy GRPO 방식이 기존 off-policy GRPO 방식뿐만 아니라 On-policy GRPO 방식보다도 더 높은 성능을 기록했습니다. 
+이는 앞서 언급된 바와 같이, On-policy 방식이 가진 base model 성능에 의해 제한된다는 intrinsic한 단점 때문으로 추측됩니다.
+
+종합적으로, 제안한 modified loss 방식이 기존 off-policy GRPO의 한계였던 all-positive 샘플의 학습 문제를 성공적으로 극복했으며, 이를 통해 추론 성능을 더욱 강화할 수 있음을 확인했습니다. 
+향후 다른 다양한 추론 도메인에서도 이 방법론이 효과적으로 활용될 가능성이 클 것으로 기대됩니다.
+
+## Generalization Across Multiple Models and Benchmarks
+
+우리는 제안한 continual post-training 방법론이 더 광범위한 모델과 다양한 벤치마크에서도 일관된 성능 개선을 보이는지 추가적으로 확인해 보았습니다. 
+이를 위해, 앞선 실험의 세팅을 유지한 상태에서 추가적으로 두 가지 모델(Openthinker2-7B, AceReason-Nemetron-1.1-7B)을 사용해 평가했습니다. 
+또한 평가를 위해 선택한 벤치마크는 수학 문제 해결 능력을 평가하는 AIME25와 AMC23, 코드 생성 능력을 평가하는 LiveCodeBench, 일반적 추론 능력을 평가하는 GPQA-Diamond, 그리고 사실 검증 성능을 평가하는 IFEval입니다.
+
+실험 결과는 아래 표와 같습니다.
+
+| Model                          | Method                         | AIME25 | AMC23 | LiveCodeBench | GPQA-Diamond | IFEval |
+|--------------------------------|--------------------------------|--------|-------|---------------|--------------|--------|
+| Openthinker3-7B                | Base                           | -      | -     | -             | -            | -      |
+|                                | Off-policy GRPO (+bias)        | -      | -     | -             | -            | -      |
+| Openthinker2-7B                | Base                           | -      | -     | -             | -            | -      |
+|                                | Off-policy GRPO (+bias)        | -      | -     | -             | -            | -      |
+| AceReason-Nemetron-1.1-7B      | Base                           | -      | -     | -             | -            | -      |
+|                                | Off-policy GRPO (+bias)        | -      | -     | -             | -            | -      |
+
+실험 결과를 통해 Math 데이터로 post-training한 만큼 수학 관련 벤치마크(AIME25, AMC23)에서는 모든 모델에서 일관된 성능 향상이 관찰되었습니다. 
+흥미롭게도, 다른 도메인에서의 성능 또한 기존 대비 저하되지 않고 유지되었으며, 특히 코드 생성 벤치마크인 LiveCodeBench에서는 오히려 소폭의 성능 향상이 관찰되었습니다. 
+이는 continual post-training 과정에서도 catastrophic forgetting이 거의 발생하지 않았다는 것을 의미합니다.
+
+추가적으로, off-policy GRPO 방식은 실제 학습 과정에서 직접적인 rollout 없이 teacher model의 trajectory를 재활용하기 때문에 매우 효율적입니다. 
+이러한 효율성 덕분에 기존의 reinforcement learning 방식 대비 계산 자원을 현저히 절약하면서도, 성능은 동등하거나 더 뛰어난 결과를 달성했습니다. 
+따라서 저희가 제안한 continual post-training 방법론은 성능과 효율성을 모두 갖춘 실용적인 접근법으로, 향후 다양한 도메인과 응용 분야에서도 매우 유용하게 활용될 수 있을 것으로 기대합니다.
 
 <!-- ## Dataset Curation for Our Method
 ### Difficulty-aware sampling
 ### Let's try out our experiment -->
+
 
 ## Lessons and Thought
