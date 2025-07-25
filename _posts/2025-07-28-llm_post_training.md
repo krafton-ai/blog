@@ -1,25 +1,35 @@
 ---
 layout: distill
-title: 
-description: 우리는 하는 중입니다.
+title: Continual Post-training method from state of the art (SOTA) LLMs for MATH.
+description: In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements.
 date: 2025-07-28
 future: true
 htmlwidgets: true
 hidden: false
 
+
 authors:
-  - name: Jongwon Jeong*
+  - name: 정종원
     affiliations:
       name: Krafton, University of Wisconsin-Madison
-  - name: Gyeongman Kim*
+  - name: 김경만
     affiliations:
       name: Krafton
-  - name: Junhyuk Kim*
+  - name: 김준혁
     affiliations:
       name: Krafton
-  - name: Jaewoong Cho
+  - name: 조제웅
     affiliations:
       name: Krafton
+  - name: 전재현
+    affiliations:
+      name: SKT
+  - name: 천성준
+    affiliations:
+      name: SKT
+  - name: 조석환
+    affiliations:
+      name: SKT
 
 # must be the exact same name as your blogpost
 bibliography: 2025-07-28-llm_post_training.bib
@@ -35,9 +45,9 @@ toc:
       - name: Why do we focus on Off-policy RL (e.g., GRPO)?
       - name: Off-policy GRPO vs. Supervised Fine-tuning (SFT)
       - name: Let's try out our experiment
-  - name: Proposed Loss for GRPO: Challenges & Solutions
+  - name: Proposed Loss for GRPO
     subsections:
-      - name: Challenges: Considering all positive reasoning trace
+      - name: Considering all positive reasoning trace
       - name: Proposed method
       - name: Let's try out our experiment
   - name: Dataset curation based on OpenThought3
@@ -72,7 +82,6 @@ _styles: >
     margin-bottom: 0;
   }
 ---
-# Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.
 Affliation: KRAFTON & SKT
 
 
