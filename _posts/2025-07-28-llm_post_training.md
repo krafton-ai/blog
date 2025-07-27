@@ -296,10 +296,3 @@ $$
 추가적으로, off-policy GRPO 방식은 실제 학습 과정에서 직접적인 rollout 없이 teacher model의 trajectory를 재활용하기 때문에 매우 효율적입니다. 
 이러한 효율성 덕분에 기존의 reinforcement learning 방식 대비 계산 자원을 현저히 절약하면서도, 성능은 동등하거나 더 뛰어난 결과를 달성했습니다. 
 따라서 저희가 제안한 continual post-training 방법론은 성능과 효율성을 모두 갖춘 실용적인 접근법으로, 향후 다양한 도메인과 응용 분야에서도 매우 유용하게 활용될 수 있을 것으로 기대합니다.
-
-<!-- ## Dataset Curation for Our Method
-### Difficulty-aware sampling
-### Let's try out our experiment -->
-
-
-## Lessons and Thought
