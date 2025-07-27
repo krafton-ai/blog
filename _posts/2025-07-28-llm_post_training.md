@@ -37,7 +37,7 @@ toc:
       - name: Let's try out our experiment
   - name: Proposed Loss for GRPO: Challenges & Solutions
     subsections:
-      - name: Challenges: Considering all positive reasoning trace
+      - name: Considering all positive reasoning trace
       - name: Proposed method
       - name: Let's try out our experiment
   - name: Dataset curation based on OpenThought3
@@ -81,15 +81,6 @@ Affliation: KRAFTON & SKT
 이를 해결하기 위해, Gold label 을 찾기 위해 미리 준비해둔 teacher data 를 활용해 off-policy GRPO 를 진행합니다.
 추가적으로, all positive trajectory 의 학습이 되도록 만들기 위해, advantage 에 더하는 bias term 또한 제안합니다.
 최종적으로, Figure 1 과 같이 수학에 더 특화된 성능을 얻을 수 있었으며, 다른 domain 에서도 기존 모델과 유사한 성능을 다양한 모델에서 얻을 수 있었습니다.
-
-<!-- 최근 어떤 domain 의 추론에 특화된 다양한 모델이 나오고 있다.
-
-<div style="margin: 0;">
-  This progress raises a deeper question:
-  <blockquote style="border-left: 4px solid gold; padding-left: 1em; margin-top: 12px; margin-bottom: 0;">
-     Is logical reasoning enough for solving real-world problems?
-  </blockquote>
-</div> -->
 
 <figure style="text-align: center;">
   <img src="{{'assets/img/2025-07-28-llm_post_training/radar_charts.png'| relative_url }}" style="display: inline-block; width: 60%; height: auto;">
