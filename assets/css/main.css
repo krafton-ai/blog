@@ -106,7 +106,23 @@ body.sticky-bottom-footer {
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: min(90vw, 1200px);
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.post .container {
+  max-width: none;
+  width: 100%;
 }
 
 .profile img {
@@ -163,6 +179,28 @@ blockquote {
 .equation {
   margin-bottom: 1rem;
   text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+}
+
+.MathJax_Display, .MathJax {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  text-align: center !important;
+  margin: 1em 0 !important;
+}
+
+.katex-display {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  text-align: center !important;
+  margin: 1em 0 !important;
+  padding: 0.5em 0 !important;
+}
+
+.katex {
+  font-size: 1em !important;
 }
 
 .caption {
@@ -802,6 +840,56 @@ d-appendix a:hover, d-appendix a.footnote-backlink:hover {
   d-article d-contents nav {
     grid-column: none;
   }
+}
+/*******************************************************************************
+ * Math and Code overflow handling
+ ******************************************************************************/
+.MathJax_Display, .MathJax, .katex-display, .katex {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100% !important;
+  padding: 0.5em 0 !important;
+}
+
+.katex-display {
+  text-align: center !important;
+  margin: 1em 0 !important;
+}
+.katex-display .katex {
+  font-size: 0.9em !important;
+  display: inline-block !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .katex-display .katex {
+    font-size: 0.8em !important;
+  }
+  .MathJax_Display {
+    font-size: 90% !important;
+  }
+}
+pre, code {
+  overflow-x: auto !important;
+  max-width: 100% !important;
+}
+
+d-article figure, .post figure {
+  max-width: 100% !important;
+  margin: 1.5em auto !important;
+  text-align: center !important;
+}
+d-article figure img, .post figure img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+d-article figure figcaption, .post figure figcaption {
+  text-align: center !important;
+  font-size: 0.9em !important;
+  color: var(--global-text-color-light) !important;
+  margin-top: 0.5em !important;
 }
 
 /*# sourceMappingURL=main.css.map */
