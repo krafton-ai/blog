@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-07-28T21:21:24+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-07-28T22:12:53+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
 </subtitle><entry><title type="html">Continual Post-training method from state of the art (SOTA) LLMs for MATH.</title><link href="https://krafton-ai.github.io/blog/llm_post_training/" rel="alternate" type="text/html" title="Continual Post-training method from state of the art (SOTA) LLMs for MATH." /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training/"><![CDATA[<h1 id="beyond-sota-math-llms-continual-post-training-method-from-state-of-the-art-sota-llms-for-math">Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.</h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>우리는 여러 추론형 Large Language Models (LLMs) 들의 수학 추론 성능을 더 끌어올리 위해 활용할 수 있는 continual post-training 방법을 제안했습니다.
-기존 post-training에서 많이 활용하는 on-policy GRPO를 활용해 학습을 진행할 수 있지만, 이것을 활용하면 학습 속도가 매우 느리고, base LLM 성능에 한계가 제한되는 단점이 있습니다.
-이를 해결하기 위해, Gold label 을 찾기 위해 미리 준비해둔 teacher data 를 활용해 off-policy GRPO 를 진행합니다.
-추가적으로, all positive trajectory 의 학습이 되도록 만들기 위해, advantage 에 더하는 bias term 또한 제안합니다.
+기존에 많이 활용되는 on-policy GRPO는 매 step마다 model에서 rollout을 통해 sample을 뽑아야 하기 때문에 rollout 과정에서 많은 시간이 소요될 뿐 아니라, 학습 초기의 base LLM 성능이 좋지 않을 경우 높은 reward를 갖는 좋은 sample 자체를 거의 얻을 수 없다는 문제가 있습니다.
+이러한 단점을 해결하기 위해, 미리 준비해둔 teacher의 reasoning trajectory만을 활용하여 off-policy GRPO를 진행합니다. 
+추가적으로, 기존 GRPO는 group 내 모든 sample이 positive일 경우 advantage가 0이 되어 학습이 이루어지지 않는데, 여기선 teacher가 생성한 trajectory만을 다룸으로 모두 positive이더라도 supervision을 받을 수 있도록 GRPO의 advantage에 bias term을 추가하는 방식을 제안합니다.
 최종적으로, Figure 1 과 같이 수학에 더 특화된 성능을 얻은 LLM들을 얻을 수 있었습니다.
 또한, 이 학습 방법으로 수학이 아닌 다른 task에서는 기존 모델과 유사한 성능을 유지할 수 있음을 확인했습니다.</p>
 
@@ -20,7 +20,7 @@
 
 <p>이런 한계를 극복하기 위한 post-training 방법 중 하나로 Reinforcement Learning with Verifiable Rewards (RLVR) 이 있습니다.
 이 방식의 post-training이 LLM의 추론 강화에 효과적이라는 사실은 DeepSeek-R1 이나 OpenAI의 o1/o3 모델과 같은 모델들이 RLVR 방식을 통해 실질적인 추론 성능향상을 보이면서 더 각광을 받게 되었습니다.
-RLVR은 LLM이 생성한 전체 추론 과정—chain-of-thought (CoT) 형태의 rollout trajectory—이 검증 가능해야 합니다.
+RLVR은 LLM이 생성한 전체 추론 과정인 chain-of-thought(CoT) 형태의 rollout trajectory가 검증 가능해야 합니다.
 예를 들어, 수학 문제의 정답이 있어서 최종 정답이 비교가 되거나, 각 단계에 대한 평가가 가능해, 생성된 rollout trajectory 전체에 대해 보상(reward)을 줄 수 있는 구조입니다.
 이런 보상을 바탕으로, RL 알고리즘(e.g., PPO, GRPO)을 통해, LLM은 검증된 추론 과정을 더 많이 생성하도록 학습되게 됩니다.</p>
 
@@ -28,13 +28,13 @@ RLVR은 LLM이 생성한 전체 추론 과정—chain-of-thought (CoT) 형태의
 이 방식은 동일 질문에 대해 샘플링한 여러 rollout trajectory들의 그룹의 평균 보상을 기준으로 삼아 각 응답의 상대적 advantage를 계산합니다.
 이의 objective $\mathcal{L}$을 수식으로 표현하면 아래와 같습니다:</p>
 
-\[\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{old}}(O|q)]}\left[
+\[\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{old}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
-\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]\]
 
-<p>여기서, $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,&lt;t})$이며, $G$는 한 그룹 내 응답 개수를 의미합니다. 또한, $\pi_{ref}$, $\pi_{\theta}$, $\pi_{old}$는 각각 기준(reference) LLM, 학습 중인 LLM, 샘플링 하는 바로 직전 step LLM을 나타냅니다. $q$와 ${o_i}_{i=1}^{G}$는 학습에 사용되는 질문과 생성된 rollout trajectory 세트를 나타냅니다.
+<p>여기서, $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,&lt;t})$이며, $G$는 한 그룹 내 응답 개수를 의미합니다. 또한, $\pi_\text{ref}$, $\pi_{\theta}$, $\pi_\text{old}$는 각각 기준(reference) LLM, 학습 중인 LLM, 샘플링에 사용되는 LLM을 나타냅니다. $q$와 ${o_i}_{i=1}^{G}$는 학습에 사용되는 질문과 생성된 rollout trajectory 세트를 나타냅니다.
 각 응답의 상대적 advantage인 $\hat{A}_i$는 다음과 같이 계산됩니다.</p>
 
 \[\hat{A}_i = \frac{r_i - \text{mean}(r_i)}{\text{std}(r_i)}\]
@@ -58,22 +58,22 @@ OpenThought3는 Math, Code, Science 등에 관련된 문제들에 대해 teacher
 이 중, 저희는 정답이 확실한 Math 에 대해서만 먼저 filtering 하여 준비했습니다.
 그 뒤, 각 문제마다 Majority Voting <d-cite key="wangself"></d-cite> 을 이용해 정답으로 간주될 수 있는 답들을 찾고, 이를 바탕으로 각 trajectory 의 reward 를 계산하였습니다.</p>
 
-<p>이 때, Teacher model 을 $\theta_{teacher}$ 라고 하고, teacher가 정답 label을 뽑기 위해 roll-out 한 문제들의 random variable을 $Q$ 라고 할 때, 우리는 off-policy GRPO를 아래와 같이 수식을 쓸 수 있습니다:</p>
+<p>이 때, Teacher model 을 $\theta_\text{teacher}$ 라고 하고, teacher가 정답 label을 뽑기 위해 roll-out 한 문제들의 random variable을 $Q$ 라고 할 때, 우리는 off-policy GRPO를 아래와 같이 수식을 쓸 수 있습니다:</p>
 
-\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{teacher}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
-\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]\]
 
-<p>이 때, practical 하게 teacher 의 probability 를 모르기 때문에, $\theta_{teacher}^{i,t}=1$ 로 가정하였습니다.
-그러면 항상 $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}} \le 1$ 이기 때문에, $\text{clip}$ 은 $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$ 로 표현될 수 있습니다.
+<p>이 때, practical 하게 teacher 의 probability 를 모르기 때문에, $\theta_\text{teacher}^{i,t}=1$ 로 가정하였습니다.
+그러면 항상 $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}} \le 1$ 이기 때문에, $\text{clip}$ 은 $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$ 로 표현될 수 있습니다.
 최종적으로, practical하게 off-policy 에 해당하는 GRPO 수식은 아래와 같이 근사될 수 있습니다. <d-cite key="luffy"></d-cite></p>
 
-\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{teacher}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
 \min\left[\pi_{\theta}^{i,t}\hat{A}_{i,t},\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]\]
 
 <h3 id="off-policy-grpo-vs-supervised-fine-tuning-sft">Off-policy GRPO vs. Supervised Fine-tuning (SFT)</h3>
@@ -82,9 +82,9 @@ OpenThought3는 Math, Code, Science 등에 관련된 문제들에 대해 teacher
 그러면 SFT 와 Off-policy GRPO 는 무슨 차이가 있을까요?
 아래의 표현된 SFT 수식과 off-policy GRPO 의 수식을 비교하면 그 차이를 알 수 있습니다.</p>
 
-\[\mathcal{L}_{SFT}(\theta) = \mathbb{E}_{q \sim P(Q),\,o \sim \pi_{\theta_{teacher}}^{(+)}(O|q)}\left[\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{&lt;t}) - \beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right]\]
+\[\mathcal{L}_{SFT}(\theta) = \mathbb{E}_{q \sim P(Q),\,o \sim \pi_{\theta_\text{teacher}}^{(+)}(O|q)}\left[\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{&lt;t}) - \beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right]\]
 
-<p>여기서, $\pi_{\theta_{teacher}}^{(+)}(O|q)$는 teacher가 생성한 샘플 중에서 positive reward를 갖는 샘플만 선택했음을 나타냅니다.
+<p>여기서, $\pi_{\theta_\text{teacher}}^{(+)}(O|q)$는 teacher가 생성한 샘플 중에서 positive reward를 갖는 샘플만 선택했음을 나타냅니다.
 이를 통해 모델은 오로지 positive 샘플의 분포를 따라가도록 지도학습을 수행하게 됩니다.</p>
 
 <p>Practical하게 근사한 off-policy GRPO 수식과 비교했을 때, 우리의 Off-policy GRPO 수식은 negative 에 해당하는 sample 또한 반영된다는 점입니다.
@@ -165,7 +165,7 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 \frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
 \left\{
 \min\left[\pi_{\theta}^{i,t}(\hat{A}_{i,t} + b), \max(\pi_{\theta}^{i,t}, 1-\epsilon)(\hat{A}_{i,t} + b)\right]
-- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_\text{ref} \right]
 \right\}
 \right] &amp; \text{if all } r_{i} &gt; 0 \\
 \\
@@ -173,7 +173,7 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 \frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
 \left\{
 \min\left[\pi_{\theta}^{i,t} \hat{A}_{i,t}, \max(\pi_{\theta}^{i,t}, 1-\epsilon)\hat{A}_{i,t}\right]
-- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_\text{ref} \right]
 \right\}
 \right] &amp; \text{otherwise}
 \end{cases}\]
@@ -315,4 +315,4 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 <p>추가적으로, off-policy GRPO 방식은 실제 학습 과정에서 직접적인 rollout 없이 teacher model의 trajectory를 재활용하기 때문에 매우 효율적입니다. 
 이러한 효율성 덕분에 기존의 reinforcement learning 방식 대비 계산 자원을 현저히 절약하면서도, 성능은 동등하거나 더 뛰어난 결과를 달성했습니다. 
 따라서 저희가 제안한 continual post-training 방법론은 성능과 효율성을 모두 갖춘 실용적인 접근법으로, 향후 다양한 도메인과 응용 분야에서도 매우 유용하게 활용될 수 있을 것으로 기대합니다.
-마지막으로, 오픈 소스 커뮤니티에 기여하고 연구의 재현성과 확장 가능성을 높이기 위해 <a href="https://huggingface.co/KRAFTON">huggingface</a>에 평가한 모델들을 모두 공개하였습니다.</p>]]></content><author><name>KRAFTON</name></author><summary type="html"><![CDATA[이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)를 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.]]></summary></entry></feed>
+마지막으로, 오픈 소스 커뮤니티에 기여하고 연구의 재현성과 확장 가능성을 높이기 위해 <a href="https://huggingface.co/KRAFTON">huggingface</a>에 평가한 모델들을 모두 공개하였습니다.</p>]]></content><author><name>KRAFTON</name></author><summary type="html"><![CDATA[이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.]]></summary></entry></feed>
