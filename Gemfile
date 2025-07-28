@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '~> 3.2.0'
+ruby '~> 3.4.0'
 group :jekyll_plugins do
     gem 'classifier-reborn'
     gem 'jekyll'
@@ -15,6 +15,4 @@ group :other_plugins do
     gem 'css_parser'
     gem 'feedjira'
     gem 'httparty'
-    # Only include `uri` gem when running in CI (e.g., GitHub Actions)
-    gem 'uri', '0.10.1' if ENV['CI']
 end
