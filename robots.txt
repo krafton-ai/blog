@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://krafton-ai.github.io/blog_off-policy-grpo/sitemap.xml
+Sitemap: https://krafton-ai.github.io/blog/sitemap.xml
