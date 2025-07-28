@@ -72,7 +72,7 @@ _styles: >
 </figure>
 
 ## Why do we focus on post-training for reasoning?
-Large text corpus로 학습하는 LLM의 사전학습(pre‑training) 은 언어의 통계적 패턴과 구조를 이해하는 데 큰 역할을 합니다.
+Large text corpus로 학습하는 LLM의 사전학습(pre‑training)은 언어의 통계적 패턴과 구조를 이해하는 데 큰 역할을 합니다.
 하지만 단계를 거쳐야 하는 복잡한 논리 추론, 수학적 문제 해결, 또는 코드 작성과 같은 작업에서는 충분하지 않습니다.
 예컨대 Chain-of-Thought (CoT)를 쓰면 어느 정도 추론 과정을 모방하게 할 수 있지만, 이는 모델이 일관된 사고 흐름을 자기 것으로 내재화한 것이 아니라 성능의 한계가 존재합니다.
 
@@ -130,7 +130,7 @@ $$
 \right]
 $$
 
-이 때, practical 하게 teacher 의 probability 를 모르기 때문에, $\theta_\text{teacher}^{i,t}=1$ 로 가정하였습니다.
+이 때, practical 하게 teacher 의 probability 를 모르기 때문에, $\pi_{\theta_\text{teacher}}^{i,t}=1$ 로 가정하였습니다.
 그러면 항상 $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}} \le 1$ 이기 때문에, $\text{clip}$ 은 $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$ 로 표현될 수 있습니다.
 최종적으로, practical하게 off-policy 에 해당하는 GRPO 수식은 아래와 같이 근사될 수 있습니다. <d-cite key="luffy"></d-cite>
 
@@ -149,7 +149,7 @@ $$
 아래의 표현된 SFT 수식과 off-policy GRPO 의 수식을 비교하면 그 차이를 알 수 있습니다.
 
 $$
-\mathcal{L}_{SFT}(\theta) = \mathbb{E}_{q \sim P(Q),\,o \sim \pi_{\theta_\text{teacher}}^{(+)}(O|q)}\left[\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{<t}) - \beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right]
+\mathcal{L}_{SFT}(\theta) = \mathbb{E}_{q \sim P(Q),\,o \sim \pi_{\theta_\text{teacher}}^{(+)}(O|q)}\left[\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{\lt t}) - \beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right]
 $$
 
 여기서, $\pi_{\theta_\text{teacher}}^{(+)}(O|q)$는 teacher가 생성한 샘플 중에서 positive reward를 갖는 샘플만 선택했음을 나타냅니다.
@@ -203,7 +203,7 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 
 ### Proposed method
 위 문제를 해결하기 위해, 저희는 all positive roll-out trajectory 인 경우에는 advantage 에 bias term 인 $b$를 추가하는 simple 한 변형 loss term 을 제안하였습니다.
-제안 방식을 통해 all positie 인 sample 이 나올 때도 그 sample 들에 대해 update 가 되도록 해주어서, all positive reasoning trace를 반영하지 못하는 문제를 해결합니다.
+제안 방식을 통해 all positive 인 sample 이 나올 때도 그 sample 들에 대해 update 가 되도록 해주어서, all positive reasoning trace를 반영하지 못하는 문제를 해결합니다.
 자세한 수식은 아래와 같습니다.
 
 $$
