@@ -136,7 +136,7 @@
           <a class="post-title" href="/blog/llm_post_training_kr/">[KR] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning</a>
         
       </h3>
-      <p>이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시 (On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였으며, 학습된 모델의 모든 checkpoint는 [HuggingFace](https://huggingface.co/KRAFTON)를 통해 공개하였습니다.</p>
+      <p>이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시 (On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였으며, 학습된 모델의 모든 checkpoint는 HuggingFace를 통해 공개하였습니다.</p>
       <p class="post-meta">
         11 min read   ·  
         July 28, 2025
@@ -164,7 +164,7 @@
           <a class="post-title" href="/blog/llm_post_training_en/">[EN] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning</a>
         
       </h3>
-      <p>In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements, and all trained model checkpoints have been released on [HuggingFace](https://huggingface.co/KRAFTON).</p>
+      <p>In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements, and all trained model checkpoints have been released on HuggingFace.</p>
       <p class="post-meta">
         12 min read   ·  
         July 28, 2025
