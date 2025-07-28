@@ -117,8 +117,8 @@ blog_description: # Blog Posts
 permalink: /:title/
 
 # Pagination
-pagination:
-  enabled: true
+paginate: 12
+paginate_path: "/page:num/"
 
 # Comments
 disqus_shortname: # put your disqus shortname
@@ -179,7 +179,7 @@ keep_files:
 plugins:
   - jekyll-archives
   - jekyll-feed
-  - jekyll-paginate-v2
+  - jekyll-paginate
   - jekyll/scholar
   - jekyll-sitemap
   - jekyll-target-blank

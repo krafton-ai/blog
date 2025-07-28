@@ -5,7 +5,7 @@ group :jekyll_plugins do
     gem 'jekyll'
     gem 'jekyll-archives'
     gem 'jekyll-feed'
-    gem 'jekyll-paginate-v2'
+    gem 'jekyll-paginate'
     gem 'jekyll-scholar'
     gem 'jekyll-sitemap'
     gem 'jekyll-target-blank'
