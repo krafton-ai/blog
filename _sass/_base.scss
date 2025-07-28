@@ -49,6 +49,30 @@ blockquote {
 .equation {
   margin-bottom: 1rem;
   text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+}
+
+// Enhanced math styling for better overflow handling
+.MathJax_Display, .MathJax {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  text-align: center !important;
+  margin: 1em 0 !important;
+}
+
+// KaTeX styling
+.katex-display {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  text-align: center !important;
+  margin: 1em 0 !important;
+  padding: 0.5em 0 !important;
+}
+
+.katex {
+  font-size: 1em !important;
 }
 
 // Caption

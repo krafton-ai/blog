@@ -124,3 +124,65 @@ d-appendix {
     }
   }
 }
+
+/*******************************************************************************
+ * Math and Code overflow handling
+ ******************************************************************************/
+
+// Math equations overflow handling
+.MathJax_Display, .MathJax, .katex-display, .katex {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100% !important;
+  padding: 0.5em 0 !important;
+}
+
+// Ensure math equations are centered and responsive
+.katex-display {
+  text-align: center !important;
+  margin: 1em 0 !important;
+  
+  .katex {
+    font-size: 0.9em !important;
+    display: inline-block !important;
+    max-width: 100% !important;
+  }
+}
+
+// Handle very wide equations
+@media (max-width: 768px) {
+  .katex-display .katex {
+    font-size: 0.8em !important;
+  }
+  
+  .MathJax_Display {
+    font-size: 90% !important;
+  }
+}
+
+// Code blocks overflow handling
+pre, code {
+  overflow-x: auto !important;
+  max-width: 100% !important;
+}
+
+// Figure and image responsiveness
+d-article figure, .post figure {
+  max-width: 100% !important;
+  margin: 1.5em auto !important;
+  text-align: center !important;
+  
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+  
+  figcaption {
+    text-align: center !important;
+    font-size: 0.9em !important;
+    color: var(--global-text-color-light) !important;
+    margin-top: 0.5em !important;
+  }
+}
