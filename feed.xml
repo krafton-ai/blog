@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-07-28T22:30:53+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-07-28T22:32:08+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
 </subtitle><entry><title type="html">Continual Post-training method from state of the art (SOTA) LLMs for MATH.</title><link href="https://krafton-ai.github.io/blog/llm_post_training/" rel="alternate" type="text/html" title="Continual Post-training method from state of the art (SOTA) LLMs for MATH." /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training/"><![CDATA[<h1 id="beyond-sota-math-llms-continual-post-training-method-from-state-of-the-art-sota-llms-for-math">Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.</h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>우리는 여러 추론형 Large Language Models (LLMs) 들의 수학 추론 성능을 더 끌어올리 위해 활용할 수 있는 continual post-training 방법을 제안했습니다.
@@ -315,4 +315,318 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 <p>추가적으로, off-policy GRPO 방식은 실제 학습 과정에서 직접적인 rollout 없이 teacher model의 trajectory를 재활용하기 때문에 매우 효율적입니다. 
 이러한 효율성 덕분에 기존의 reinforcement learning 방식 대비 계산 자원을 현저히 절약하면서도, 성능은 동등하거나 더 뛰어난 결과를 달성했습니다. 
 따라서 저희가 제안한 continual post-training 방법론은 성능과 효율성을 모두 갖춘 실용적인 접근법으로, 향후 다양한 도메인과 응용 분야에서도 매우 유용하게 활용될 수 있을 것으로 기대합니다.
-마지막으로, 오픈 소스 커뮤니티에 기여하고 연구의 재현성과 확장 가능성을 높이기 위해 <a href="https://huggingface.co/KRAFTON">huggingface</a>에 평가한 모델들을 모두 공개하였습니다.</p>]]></content><author><name>KRAFTON</name></author><summary type="html"><![CDATA[이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.]]></summary></entry></feed>
+마지막으로, 오픈 소스 커뮤니티에 기여하고 연구의 재현성과 확장 가능성을 높이기 위해 <a href="https://huggingface.co/KRAFTON">huggingface</a>에 평가한 모델들을 모두 공개하였습니다.</p>]]></content><author><name>KRAFTON</name></author><summary type="html"><![CDATA[이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.]]></summary></entry><entry><title type="html">Continual Post-training method from state of the art (SOTA) LLMs for MATH.</title><link href="https://krafton-ai.github.io/blog/llm_post_training_en/" rel="alternate" type="text/html" title="Continual Post-training method from state of the art (SOTA) LLMs for MATH." /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training_en/"><![CDATA[<h1 id="beyond-sota-math-llms-a-continual-post-training-method-for-state-of-the-art-sota-llms-in-math">Beyond SOTA MATH LLMs: A Continual Post-training Method for State-of-the-Art (SOTA) LLMs in MATH.</h1>
+<!-- Affliation: KRAFTON & SKT -->
+<p>We propose a continual post-training method that further enhances the mathematical reasoning performance of various Large Language Models (LLMs). 
+Although on-policy GRPO is a commonly used for post-training, it suffers from long training times and is constrained by the capabilities of the base LLM. 
+To address these issues, we use an off-policy GRPO method, which learns from a pre-existing dataset of high-quality solutions generated by a more capable teacher model.
+Additionally, we introduce a bias term in the advantage function to ensure that all positive trajectories are effectively learned. 
+As a result, we developed LLMs with specialized performance in mathematics, as illustrated in Figure 1. 
+We also confirmed that this training method maintains the performance of the original model on tasks other than mathematics.</p>
+
+<figure style="text-align: center;">
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/radar_charts.png" style="display: inline-block; width: 60%; height: auto;" />
+  <figcaption style="font-size: 1em;">Figure 1: Performance Comparision between base LLMs and base LLMs with our method.</figcaption>
+</figure>
+
+<h2 id="why-do-we-focus-on-post-training-for-reasoning">Why do we focus on post-training for reasoning?</h2>
+<p>The pre-training of LLMs on large text corpora plays a crucial role in capturing statistical patterns and language structures. 
+However, this is often insufficient for tasks that require complex, multi-step logical reasoning, mathematical problem-solving, or code generation. 
+For instance, while using Chain-of-Thought (CoT) can mimic the reasoning process to some extent, its performance is limited because the model has not fully internalized a coherent flow of reasoning.</p>
+
+<p>Reinforcement Learning with Verifiable Rewards (RLVR) is designed to overcome these limitations. 
+The effectiveness of this post-training approach in enhancing the reasoning capabilities of LLMs has gained prominence, with models like DeepSeek-R1 and OpenAI’s o1/o3 models demonstrating substantial improvements in reasoning performance via RLVR. 
+RLVR requires the entire reasoning process generated by the LLM—a rollout trajectory in the form of Chain-of-Thought (CoT)—to be verifiable. 
+For example, in a math problem with a known answer, the final solution can be directly compared, or each step can be evaluated, enabling reward assignment to the entire generated trajectory. 
+Based on such rewards, RL algorithms (e.g., PPO, GRPO) are used to train the LLM to generate correct reasoning processes.</p>
+
+<p>Group Relative Policy Optimization (GRPO) &lt;d-cite key=”guo2025deepseekR1”&gt;&lt;/d-cite&gt;, one of the most commonly used algorithms in RLVR, calculates each response’s relative advantage based on the average reward of a group of sampled rollout trajectories for the same question. 
+The objective function $\mathcal{L}$ can be expressed as follows:</p>
+
+\[\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{old}}(O|q)]}\left[
+\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\right]\]
+
+<p>where $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,&lt;t})$, and $G$ represents the number of responses in a group. Also, $\pi_{ref}$, $\pi_{\theta}$, and $\pi_{old}$ denote the reference LLM, the LLM being trained, and the LLM from the previous step used for sampling, respectively. $q$ and ${o_i}_{i=1}^{G}$ denote the set of questions and the generated rollout trajectories used for training. 
+The relative advantage of each response $\hat{A}_i$ is calculated as follows:</p>
+
+\[\hat{A}_i = \frac{r_i - \text{mean}(r_i)}{\text{std}(r_i)}\]
+
+<p>This trajectory-level advantage is then applied to each token level of the response, ultimately being used as $\hat{A}_{i,t}$.</p>
+
+<h2 id="off-policy-reinforcement-learning-with-verifiable-reward-off-policy-rlvr">Off-policy Reinforcement Learning with Verifiable Reward (Off-policy RLVR)</h2>
+<h3 id="why-do-we-focus-on-off-policy-rlvr-eg-grpo">Why do we focus on Off-policy RLVR (e.g., GRPO)?</h3>
+<p>The RLVR method described earlier computes the advantage in an on-policy manner.
+This means that the LLM is updated based on the rewards of the rollout trajectories generated by itself.</p>
+
+<p>However, on-policy training has two main drawbacks. 
+The first is its slow training speed. <d-cite key="liang2025squeeze"></d-cite> 
+This is due to the need for the generation of $G$ rollout trajectories per question at each step of loss calculation.
+Second, the performance of on-policy methods is limited by the capabilities of the base LLM. <d-cite key="luffy"></d-cite> 
+With a less-capable base LLM, we get a relatively small probability of generating a correct trajectory, which can lead to a bottleneck for performance improvement.</p>
+
+<p>To overcome these drawbacks of on-policy methods, we turn our attention to off-policy RLVR methods that utilize pre-existing rollout trajectories of teacher LLMs.
+In this project, we use the OpenThoughts3 <d-cite key="openthoughts"></d-cite> dataset.
+The dataset consists of 16 roll-out trajectories of the teacher model, QwQ-32B, on problems in math, code, and science.
+From the dataset, we only utilize math problems.
+We then apply Majority Voting <d-cite key="wangself"></d-cite> to identify potentially correct answers and assign rewards to each trajectory accordingly.</p>
+
+<p>Denoting the teacher model $\theta_{teacher}$ and the random variable for the problems that the teacher has seen as $Q$, we can write the off-policy GRPO equation as follows:</p>
+
+\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\right]\]
+
+<p>Since we do not know the likelihood of the trajectory under the teacher model in practice, we assume $\pi_{\theta_{teacher}}^{i,t} = 1$.
+This means that $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}} \le 1$ is always true, $\text{clip}$ can be expressed as $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$.
+Therefore, the off-policy GRPO objective can be approximated as follows: <d-cite key="luffy"></d-cite></p>
+
+\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
+\min\left[\pi_{\theta}^{i,t}\hat{A}_{i,t},\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\right]\]
+
+<h3 id="off-policy-grpo-vs-supervised-fine-tuning-sft">Off-policy GRPO vs. Supervised Fine-tuning (SFT)</h3>
+
+<p>The simplest way to train a model with off-policy data is SFT.
+So, what distinguishes SFT from off-policy GRPO? 
+The difference becomes clear by comparing the SFT loss equation below with that of off-policy GRPO.</p>
+
+\[\mathcal{L}_{SFT}(\theta) = \mathbb{E}_{q \sim P(Q),\,o \sim \pi_{\theta_{teacher}}^{(+)}(O|q)}\left[\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{&lt;t}) - \beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right]\]
+
+<p>Here, $\pi_{\theta_{teacher}}^{(+)}(O|q)$ indicates that only positive samples from the teacher’s generations are selected.
+This supervised learning loss guides the model to follow the distribution of only the positive samples.</p>
+
+<p>When compared with our approximated off-policy GRPO loss equation, it can be seen that the off-policy GRPO also leverages negative samples.
+In Off-policy GRPO, the model learns to move toward positive samples and away from negative ones.
+This property strengthens the model’s reasoning ability by steering it away from logically incorrect rollout trajectories. 
+We support this claim with the following experiment.</p>
+
+<h3 id="lets-try-out-our-experiment">Let’s try out our experiment</h3>
+
+<p>We conducted an experiment to verify whether the off-policy GRPO method is more effective in enhancing reasoning ability than supervised fine-tuning (SFT), which only learns from positive samples. 
+We used OpenThinker3-7B as our base model, and sampled approximately 2,000 Math problems from OpenThoughts3 as training data. 
+The implementation was built on top of the VERL framework. 
+For the training, we used a learning rate of 1e-7, a batch size of 32, 3 epochs, and a KL coefficient of 0.1. 8 samples were used per problem during training.</p>
+
+<p>Using AIME24 as the validation set to measure performance at each epoch, the best-performing checkpoint across the three epochs was selected, and final performance was evaluated on AIME25-1 and AIME25-2. The experimental results are as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>AIME25-1 Score</th>
+      <th>AIME25-2 Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Base model</td>
+      <td>55.31</td>
+      <td>61.25</td>
+    </tr>
+    <tr>
+      <td>SFT</td>
+      <td><strong>55.83</strong></td>
+      <td>57.4</td>
+    </tr>
+    <tr>
+      <td>Off-policy GRPO</td>
+      <td>55.21</td>
+      <td><strong>63.02</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We show that Off-policy GRPO outperforms SFT by allowing the model to learn from negative samples as well.
+While all training data are treated as positive in SFT, we improve the supervised learning setup by incorporating more informative reward signals through majority voting and off-policy GRPO.</p>
+
+<p>In this experiment, we have demonstrated the effectiveness of Off-policy GRPO in further enhancing the reasoning ability of existing SOTA LLMs. We believe such method has potential to be applied to various other domains that require reasoning in the future.</p>
+
+<h2 id="proposed-loss-for-rlvr-challenges--solutions">Proposed Loss for RLVR: Challenges &amp; Solutions</h2>
+<h3 id="challenges-considering-all-positive-reasoning-trace">Challenges: Considering all positive reasoning trace</h3>
+<p>A key issue arises when naively applying GRPO’s advantage calculation in the off-policy setting.
+When all rollout trajectories are positive and the mean reward is 1, the resulting advantage becomes 0. 
+This means that no updates are made for those samples.</p>
+
+<p>In the case of on-policy GRPO, these all-positive samples are not problematic because the model is already performing well, making further learning from such easy problems unnecessary.</p>
+
+<p>However, in the off-policy setting, ignoring all-positive samples can be detrimental.
+In our setup, the off-policy samples are sourced from a teacher model.
+Even if all teacher samples are positive, this does not necessarily mean the target model can solve the same problems perfectly.
+The current objective fails to capture this discrepancy, missing valuable learning opportunities from high-quality rollout trajectories.</p>
+
+<p>The figure below shows this discrepancy in our dataset.</p>
+
+<figure style="text-align: center;">
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png" style="display: inline-block; width: 60%; height: auto;" />
+  <figcaption style="font-size: 1em;">Figure 2. Statistics that although teacher can generate all positive answers, but base model cannot perfectly answer. </figcaption>
+</figure>
+
+<h3 id="proposed-method">Proposed method</h3>
+<p>To address the issue described above, we propose a simple modification to the loss term by adding a bias term $b$ to the advantage when all rollout trajectories are positive. 
+This ensures that updates are made even when all samples are positive, thus enabling learning from fully positive reasoning traces. 
+Specifically, the modified loss equation is as follows:</p>
+
+\[\mathcal{L}_{ours}(\theta) =
+\begin{cases}
+\mathbb{E}\left[
+\frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
+\left\{
+\min\left[\pi_{\theta}^{i,t}(\hat{A}_{i,t} + b), \max(\pi_{\theta}^{i,t}, 1-\epsilon)(\hat{A}_{i,t} + b)\right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+\right\}
+\right] &amp; \text{if all } r_{i} &gt; 0 \\
+\\
+\mathbb{E}\left[
+\frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
+\left\{
+\min\left[\pi_{\theta}^{i,t} \hat{A}_{i,t}, \max(\pi_{\theta}^{i,t}, 1-\epsilon)\hat{A}_{i,t}\right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+\right\}
+\right] &amp; \text{otherwise}
+\end{cases}\]
+
+<p>For our experiments, we set $b=0.5$.</p>
+
+<h3 id="lets-try-out-our-experiment-1">Let’s try out our experiment</h3>
+
+<p>In this experiment, we demonstrate that the proposed method improves performance over the existing off-policy GRPO. 
+Furthermore, we also conducted additional experiments comparing performance with on-policy GRPO. For on-policy GRPO, we generated 8 rollout samples per problem during training.</p>
+
+<p>We used the exact same experimental setup as in the first experiment, changing only the training objective.
+The same model (OpenThinker3-7B), the same data (2,000 math problems from OpenThoughts3), and the same hyperparameters (learning rate=1e-7, batch size=32, epochs=3, KL coefficient=0.1, 8 samples per problem) were used. 
+The bias term was set to 0.5.</p>
+
+<p>Performance was evaluated in the same manner—selecting the best checkpoint using AIME24 as the validation set and then evaluating final performance on AIME25-1 and AIME25-2. The experimental results are as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>AIME25-1 Score</th>
+      <th>AIME25-2 Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Base model</td>
+      <td>55.31</td>
+      <td>61.25</td>
+    </tr>
+    <tr>
+      <td>On-policy GRPO</td>
+      <td>55.42</td>
+      <td>59.58</td>
+    </tr>
+    <tr>
+      <td>Off-policy GRPO</td>
+      <td>55.21</td>
+      <td>63.02</td>
+    </tr>
+    <tr>
+      <td>Off-policy GRPO (with all positive group bias)</td>
+      <td><strong>56.35</strong></td>
+      <td><strong>63.85</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The experimental results show that the proposed modified off-policy GRPO outperforms not only the existing off-policy GRPO but also on-policy GRPO. 
+We believe these results imply the intrinsic limitation of the on-policy method, its performance being limited by the base model, as mentioned earlier.</p>
+
+<p>In conclusion, we show that the proposed modified loss successfully addresses the limitation of existing off-policy GRPO in learning from all-positive samples, thereby further improving the model’s reasoning performance.
+We believe this modification can also be effective in domains beyond mathematics.</p>
+
+<h2 id="generalization-across-multiple-models-and-benchmarks">Generalization Across Multiple Models and Benchmarks</h2>
+
+<p>We further investigated whether our proposed continual post-training methodology consistently improves performance across a broader range of models and various benchmarks.
+To this end, we maintained the previous experimental setup and additionally evaluated two additional models: OpenThinker2-7B and AceReason-Nemetron-1.1-7B.
+We also extended our evaluation to a broader range of benchmarks: AIME25 and AMC23 for mathematical problem-solving skills, LiveCodeBench for code generation ability, GPQA-Diamond for general reasoning ability, and IFEval for instruction-following.
+We used the <a href="https://github.com/NovaSky-AI/SkyThought">SkyThought</a> framework for AIME25, AMC23, LiveCodeBench, and GPQA-Diamond, and the <a href="https://github.com/EleutherAI/lm-evaluation-harness">llm-evaluation-harness</a> for IFEval.</p>
+
+<p>The experimental results are presented in the table below:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Method</th>
+      <th>AIME25</th>
+      <th>AMC23</th>
+      <th>LiveCodeBench</th>
+      <th>GPQA-Diamond</th>
+      <th>IFEval</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Openthinker3-7B</td>
+      <td>Base</td>
+      <td>57.2915</td>
+      <td>92.617</td>
+      <td>63.968</td>
+      <td>50.947</td>
+      <td>50.09</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Off-policy GRPO (+bias)</td>
+      <td>59.5315</td>
+      <td>93.516</td>
+      <td>64.995</td>
+      <td>49.684</td>
+      <td>51.66</td>
+    </tr>
+    <tr>
+      <td>Openthinker2-7B</td>
+      <td>Base</td>
+      <td>39.792</td>
+      <td>88.633</td>
+      <td>56.115</td>
+      <td>45.833</td>
+      <td>53.3</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Off-policy GRPO (+bias)</td>
+      <td>40.3645</td>
+      <td>87.656</td>
+      <td>55.944</td>
+      <td>46.843</td>
+      <td>52.20</td>
+    </tr>
+    <tr>
+      <td>AceReason-Nemetron-1.1-7B</td>
+      <td>Base</td>
+      <td>64.635</td>
+      <td>92.93</td>
+      <td>72.383</td>
+      <td>52.462</td>
+      <td>36.02</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>Off-policy GRPO (+bias)</td>
+      <td>65.521</td>
+      <td>93.164</td>
+      <td>72.603</td>
+      <td>54.356</td>
+      <td>38.23</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As the models were post-trained on math data, all models showed consistent performance improvements on the math-related benchmarks (AIME25, AMC23).
+Interestingly, performance in other domains was maintained without degradation compared to the original models, and even showed a slight improvement on the code generation benchmark, LiveCodeBench.
+These results indicate an absence of any catastrophic forgetting during the continual post-training process.</p>
+
+<p>Additionally, off-policy GRPO is highly efficient as it recycles the teacher model’s trajectories without direct rollout during the training process. 
+We therefore achieved performance comparable to or better than existing reinforcement learning methods while significantly reducing computational cost.
+Being compute-efficient yet strong in performance, we believe that our proposed continual post-training methodology is attractive to many practitioners, and expect it to be useful across various domains and applications.
+Finally, we have publicly released all the evaluated models on <a href="https://huggingface.co/KRAFTON">huggingface</a> to contribute to the open-source community and to make our results reproducible.</p>]]></content><author><name>KRAFTON</name></author><summary type="html"><![CDATA[In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements.]]></summary></entry></feed>
