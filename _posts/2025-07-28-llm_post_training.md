@@ -176,8 +176,8 @@ Off-policy GRPO 에서는 positive 와는 계속 가까워지게 학습을 하�
 | Method                     | AIME25-1 Score | AIME25-2 Score |
 | -------------------------- | -------------- | -------------- |
 | Base model                 | 55.31         | 61.25         |
-| SFT                        | 55.83         | 57.4         |
-| **Off-policy GRPO**        | **55.21**     | **63.02**     |
+| SFT                        | **55.83**         | 57.4         |
+| **Off-policy GRPO**        | 55.21     | **63.02**     |
 
 Off-policy GRPO 방식이 SFT보다 더 뛰어난 성능을 보인 이유는 negative sample들로부터 모델이 적극적으로 멀어지도록 학습을 유도했기 때문입니다. 
 기존의 데이터는 모두 positive sample로 고려되고 있지만, 본 실험에서는 majority voting과 Off-policy GRPO를 통해 보다 정확한 정보를 확보하고 이를 바탕으로 negative sample로부터 벗어나도록 유도하여, 더욱 세밀한 지도학습이 가능했습니다.
@@ -250,7 +250,7 @@ $$
 | Base model                                         | 55.31         | 61.25         |
 | On-policy GRPO                                     | 55.42         | 59.58         |
 | Off-policy GRPO                                    | 55.21         | 63.02         |
-| **Off-policy GRPO (with all positive group bias)** | 56.35         | 63.85         |
+| **Off-policy GRPO (with all positive group bias)** | **56.35**     | **63.85**         |
 
 실험 결과, 제안한 modified off-policy GRPO 방식이 기존 off-policy GRPO 방식뿐만 아니라 On-policy GRPO 방식보다도 더 높은 성능을 기록했습니다. 
 이는 앞서 언급된 바와 같이, On-policy 방식이 가진 base model 성능에 의해 제한된다는 intrinsic한 단점 때문으로 추측됩니다.
@@ -263,6 +263,7 @@ $$
 우리는 제안한 continual post-training 방법론이 더 광범위한 모델과 다양한 벤치마크에서도 일관된 성능 개선을 보이는지 추가적으로 확인해 보았습니다. 
 이를 위해, 앞선 실험의 세팅을 유지한 상태에서 추가적으로 두 가지 모델(Openthinker2-7B, AceReason-Nemetron-1.1-7B)을 사용해 평가했습니다. 
 또한 평가를 위해 선택한 벤치마크는 수학 문제 해결 능력을 평가하는 AIME25와 AMC23, 코드 생성 능력을 평가하는 LiveCodeBench, 일반적 추론 능력을 평가하는 GPQA-Diamond, 그리고 사실 검증 성능을 평가하는 IFEval입니다.
+여기서 AIME25와 AMC23, LiveCodeBench, GPQA-Diamond 평가에는 [SkyThought](https://github.com/NovaSky-AI/SkyThought) framework, IFEval 평가엔 [llm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) framework을 사용하였습니다.
 
 실험 결과는 아래 표와 같습니다.
 
@@ -282,3 +283,4 @@ $$
 추가적으로, off-policy GRPO 방식은 실제 학습 과정에서 직접적인 rollout 없이 teacher model의 trajectory를 재활용하기 때문에 매우 효율적입니다. 
 이러한 효율성 덕분에 기존의 reinforcement learning 방식 대비 계산 자원을 현저히 절약하면서도, 성능은 동등하거나 더 뛰어난 결과를 달성했습니다. 
 따라서 저희가 제안한 continual post-training 방법론은 성능과 효율성을 모두 갖춘 실용적인 접근법으로, 향후 다양한 도메인과 응용 분야에서도 매우 유용하게 활용될 수 있을 것으로 기대합니다.
+마지막으로, 오픈 소스 커뮤니티에 기여하고 연구의 재현성과 확장 가능성을 높이기 위해 [huggingface](https://huggingface.co/KRAFTON)에 평가한 모델들을 모두 공개하였습니다. 
