@@ -56,6 +56,10 @@ _styles: >
     margin-top: 0;
     margin-bottom: 0;
   }
+  a[href="https://huggingface.co/KRAFTON"] {
+    color: #007bff !important;
+    font-weight: bold;
+  }
 ---
 # <strong>Boosting Math Reasoning in Open-Source LLMs</strong>
 <!-- Affliation: KRAFTON & SKT -->
@@ -276,4 +280,4 @@ These results indicate an absence of any catastrophic forgetting during the cont
 Additionally, off-policy GRPO is highly efficient as it recycles the teacher model's trajectories without direct rollout during the training process. 
 We therefore achieved performance comparable to or better than existing reinforcement learning methods while significantly reducing computational cost.
 Being compute-efficient yet strong in performance, we believe that our proposed continual post-training methodology is attractive to many practitioners, and expect it to be useful across various domains and applications.
-Finally, we have publicly released all the evaluated models on [huggingface](https://huggingface.co/KRAFTON) to contribute to the open-source community and to make our results reproducible.
+Finally, we have publicly released all the evaluated models on [HuggingFace](https://huggingface.co/KRAFTON) to contribute to the open-source community and to make our results reproducible.

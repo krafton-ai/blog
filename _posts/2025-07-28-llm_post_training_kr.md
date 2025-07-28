@@ -56,6 +56,10 @@ _styles: >
     margin-top: 0;
     margin-bottom: 0;
   }
+  a[href="https://huggingface.co/KRAFTON"] {
+    color: #007bff !important;
+    font-weight: bold;
+  }
 ---
 # <strong>Boosting Math Reasoning in Open-Source LLMs</strong>
 <!-- Affliation: KRAFTON & SKT -->
