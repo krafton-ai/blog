@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blogposts/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blogposts/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-07-28T14:37:26+08:00</updated><id>https://krafton-ai.github.io/blogposts/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
-</subtitle><entry><title type="html">Continual Post-training method from state of the art (SOTA) LLMs for MATH.</title><link href="https://krafton-ai.github.io/blogposts/llm_post_training/" rel="alternate" type="text/html" title="Continual Post-training method from state of the art (SOTA) LLMs for MATH." /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blogposts/llm_post_training</id><content type="html" xml:base="https://krafton-ai.github.io/blogposts/llm_post_training/"><![CDATA[<h1 id="beyond-sota-math-llms-continual-post-training-method-from-state-of-the-art-sota-llms-for-math">Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-07-28T15:09:55+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
+</subtitle><entry><title type="html">Continual Post-training method from state of the art (SOTA) LLMs for MATH.</title><link href="https://krafton-ai.github.io/blog/llm_post_training/" rel="alternate" type="text/html" title="Continual Post-training method from state of the art (SOTA) LLMs for MATH." /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training/"><![CDATA[<h1 id="beyond-sota-math-llms-continual-post-training-method-from-state-of-the-art-sota-llms-for-math">Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.</h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>우리는 여러 추론형 Large Language Models (LLMs) 들의 수학 추론 성능을 더 끌어올리 위해 활용할 수 있는 continual post-training 방법을 제안했습니다.
 기존 post-training에서 많이 활용하는 on-policy GRPO를 활용해 학습을 진행할 수 있지만, 이것을 활용하면 학습 속도가 매우 느리고, base LLM 성능에 한계가 제한되는 단점이 있습니다.
@@ -9,7 +9,7 @@
 또한, 이 학습 방법으로 수학이 아닌 다른 task에서는 기존 모델과 유사한 성능을 유지할 수 있음을 확인했습니다.</p>
 
 <figure style="text-align: center;">
-  <img src="/blogposts/assets/img/2025-07-28-llm_post_training/radar_charts.png" style="display: inline-block; width: 60%; height: auto;" />
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/radar_charts.png" style="display: inline-block; width: 60%; height: auto;" />
   <figcaption style="font-size: 1em;">Figure 1: Performance Comparision between base LLMs and base LLMs with our method.</figcaption>
 </figure>
 
@@ -150,7 +150,7 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 <p>저희가 준비한 데이터에서 이 문제가 있음을 아래 그림을 통해 확인이 되었습니다.</p>
 
 <figure style="text-align: center;">
-  <img src="/blogposts/assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png" style="display: inline-block; width: 60%; height: auto;" />
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png" style="display: inline-block; width: 60%; height: auto;" />
   <figcaption style="font-size: 1em;">Figure 2. Statistics that although teacher can generate all positive answers, but base model cannot perfectly answer. </figcaption>
 </figure>
 
