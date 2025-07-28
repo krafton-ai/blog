@@ -67,7 +67,7 @@ _styles: >
 또한, 이 학습 방법으로 수학이 아닌 다른 task에서는 기존 모델과 유사한 성능을 유지할 수 있음을 확인했습니다.
 
 <figure style="text-align: center;">
-  <img src="{{'assets/img/2025-07-28-llm_post_training/radar_charts.png'| relative_url }}" style="display: inline-block; width: 60%; height: auto;">
+  <img src="{{'assets/img/2025-07-28-llm_post_training/radar_charts.png'| relative_url }}" style="display: inline-block; width: 100%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 1: Performance Comparision between base LLMs and base LLMs with our method.</figcaption>
 </figure>
 
@@ -197,7 +197,7 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 저희가 준비한 데이터에서 이 문제가 있음을 아래 그림을 통해 확인이 되었습니다.
 
 <figure style="text-align: center;">
-  <img src="{{'assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png'| relative_url }}" style="display: inline-block; width: 60%; height: auto;">
+  <img src="{{'assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png'| relative_url }}" style="display: inline-block; width: 40%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 2. Statistics that although teacher can generate all positive answers, but base model cannot perfectly answer. </figcaption>
 </figure>
 
