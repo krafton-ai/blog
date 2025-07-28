@@ -21,7 +21,7 @@
 
     // getting stuff directly from Jekyll
     let publishedWhen = "July 28, 2025";
-    let title = "Continual Post-training method from state of the art (SOTA) LLMs for MATH.";
+    let title = "[EN] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning";
     let description = "In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements.";
 
     {
@@ -74,7 +74,7 @@ ${academicLFI}, "${title}", ICLR Blogposts, 2025.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Continual Post-training method from state of the art (SOTA) LLMs for MATH. | Krafton AI</title>
+    <title>[EN] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning | Krafton AI</title>
     <meta name="author" content="Krafton  Blog" />
     <meta name="description" content="In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements." />
     <meta name="keywords" content="machine-learning, ml, deep-learning, reinforcement-learning, iclr" />
@@ -153,7 +153,7 @@ ${academicLFI}, "${title}", ICLR Blogposts, 2025.
 
   <d-front-matter>
     <script async type="text/json">{
-      "title": "Continual Post-training method from state of the art (SOTA) LLMs for MATH.",
+      "title": "[EN] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning",
       "description": "In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements.",
       "published": "July 28, 2025",
       "authors": [
@@ -260,14 +260,14 @@ ${academicLFI}, "${title}", ICLR Blogposts, 2025.
     <div class="post distill">
 
       <d-title>
-        <h1>Continual Post-training method from state of the art (SOTA) LLMs for MATH.</h1>
+        <h1>[EN] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning</h1>
         <p>In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited on-policy training. We propose an off-policy alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements.</p>
       </d-title>
 
       <d-byline></d-byline>
 
       <d-article>
-        <h1 id="beyond-sota-math-llms-a-continual-post-training-method-for-state-of-the-art-sota-llms-in-math">Beyond SOTA MATH LLMs: A Continual Post-training Method for State-of-the-Art (SOTA) LLMs in MATH.</h1>
+        <h1 id="boosting-math-reasoning-in-open-source-llms-via-continual-post-training">Boosting Math Reasoning in Open-Source LLMs via Continual Post-Training</h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>We propose a continual post-training method that further enhances the mathematical reasoning performance of various Large Language Models (LLMs). 
 Although on-policy GRPO is a commonly used for post-training, it suffers from long training times and is constrained by the capabilities of the base LLM. 
@@ -277,7 +277,7 @@ As a result, we developed LLMs with specialized performance in mathematics, as i
 We also confirmed that this training method maintains the performance of the original model on tasks other than mathematics.</p>
 
 <figure style="text-align: center;">
-  <img src="/blog/assets/img/2025-07-28-llm_post_training/radar_charts.png" style="display: inline-block; width: 60%; height: auto;">
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/radar_charts.png" style="display: inline-block; width: 100%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 1: Performance Comparision between base LLMs and base LLMs with our method.</figcaption>
 </figure>
 
@@ -295,13 +295,13 @@ Based on such rewards, RL algorithms (e.g., PPO, GRPO) are used to train the LLM
 <p>Group Relative Policy Optimization (GRPO) <d-cite key="guo2025deepseekR1"></d-cite>, one of the most commonly used algorithms in RLVR, calculates each response’s relative advantage based on the average reward of a group of sampled rollout trajectories for the same question. 
 The objective function $\mathcal{L}$ can be expressed as follows:</p>
 
-\[\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{old}}(O|q)]}\left[
+\[\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{old}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
-\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]\]
 
-<p>where $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,&lt;t})$, and $G$ represents the number of responses in a group. Also, $\pi_{ref}$, $\pi_{\theta}$, and $\pi_{old}$ denote the reference LLM, the LLM being trained, and the LLM from the previous step used for sampling, respectively. $q$ and ${o_i}_{i=1}^{G}$ denote the set of questions and the generated rollout trajectories used for training. 
+<p>where $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,&lt;t})$, and $G$ represents the number of responses in a group. Also, $\pi_\text{ref}$, $\pi_{\theta}$, and $\pi_\text{old}$ denote the reference LLM, the LLM being trained, and the LLM from the previous step used for sampling, respectively. $q$ and ${o_i}_{i=1}^{G}$ denote the set of questions and the generated rollout trajectories used for training. 
 The relative advantage of each response $\hat{A}_i$ is calculated as follows:</p>
 
 \[\hat{A}_i = \frac{r_i - \text{mean}(r_i)}{\text{std}(r_i)}\]
@@ -325,22 +325,22 @@ The dataset consists of 16 roll-out trajectories of the teacher model, QwQ-32B, 
 From the dataset, we only utilize math problems.
 We then apply Majority Voting <d-cite key="wangself"></d-cite> to identify potentially correct answers and assign rewards to each trajectory accordingly.</p>
 
-<p>Denoting the teacher model $\theta_{teacher}$ and the random variable for the problems that the teacher has seen as $Q$, we can write the off-policy GRPO equation as follows:</p>
+<p>Denoting the teacher model $\theta_\text{teacher}$ and the random variable for the problems that the teacher has seen as $Q$, we can write the off-policy GRPO equation as follows:</p>
 
-\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{teacher}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
-\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]\]
 
-<p>Since we do not know the likelihood of the trajectory under the teacher model in practice, we assume $\pi_{\theta_{teacher}}^{i,t} = 1$.
-This means that $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}} \le 1$ is always true, $\text{clip}$ can be expressed as $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$.
+<p>Since we do not know the likelihood of the trajectory under the teacher model in practice, we assume $\pi_{\theta_\text{teacher}}^{i,t} = 1$.
+This means that $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}} \le 1$ is always true, $\text{clip}$ can be expressed as $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$.
 Therefore, the off-policy GRPO objective can be approximated as follows: <d-cite key="luffy"></d-cite></p>
 
-\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\[\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{teacher}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
 \min\left[\pi_{\theta}^{i,t}\hat{A}_{i,t},\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]\]
 
 <h3 id="off-policy-grpo-vs-supervised-fine-tuning-sft">Off-policy GRPO vs. Supervised Fine-tuning (SFT)</h3>
@@ -351,7 +351,7 @@ The difference becomes clear by comparing the SFT loss equation below with that 
 
 \[\mathcal{L}_{SFT}(\theta) = \mathbb{E}_{q \sim P(Q),\,o \sim \pi_{\theta_\text{teacher}}^{(+)}(O|q)}\left[\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{\lt t}) - \beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right]\]
 
-<p>Here, $\pi_{\theta_{teacher}}^{(+)}(O|q)$ indicates that only positive samples from the teacher’s generations are selected.
+<p>Here, $\pi_{\theta_\text{teacher}}^{(+)}(O|q)$ indicates that only positive samples from the teacher’s generations are selected.
 This supervised learning loss guides the model to follow the distribution of only the positive samples.</p>
 
 <p>When compared with our approximated off-policy GRPO loss equation, it can be seen that the off-policy GRPO also leverages negative samples.
@@ -416,7 +416,7 @@ The current objective fails to capture this discrepancy, missing valuable learni
 <p>The figure below shows this discrepancy in our dataset.</p>
 
 <figure style="text-align: center;">
-  <img src="/blog/assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png" style="display: inline-block; width: 60%; height: auto;">
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png" style="display: inline-block; width: 40%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 2. Statistics that although teacher can generate all positive answers, but base model cannot perfectly answer. </figcaption>
 </figure>
 
@@ -431,7 +431,7 @@ Specifically, the modified loss equation is as follows:</p>
 \frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
 \left\{
 \min\left[\pi_{\theta}^{i,t}(\hat{A}_{i,t} + b), \max(\pi_{\theta}^{i,t}, 1-\epsilon)(\hat{A}_{i,t} + b)\right]
-- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_\text{ref} \right]
 \right\}
 \right] &amp; \text{if all } r_{i} &gt; 0 \\
 \\
@@ -439,7 +439,7 @@ Specifically, the modified loss equation is as follows:</p>
 \frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
 \left\{
 \min\left[\pi_{\theta}^{i,t} \hat{A}_{i,t}, \max(\pi_{\theta}^{i,t}, 1-\epsilon)\hat{A}_{i,t}\right]
-- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_\text{ref} \right]
 \right\}
 \right] &amp; \text{otherwise}
 \end{cases}\]
