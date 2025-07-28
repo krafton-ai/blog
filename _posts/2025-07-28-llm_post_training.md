@@ -1,6 +1,6 @@
 ---
 layout: distill
-title: Continual Post-training method from state of the art (SOTA) LLMs for MATH.
+title: Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning
 description: 이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.
 date: 2025-07-28
 future: true
@@ -57,7 +57,7 @@ _styles: >
     margin-bottom: 0;
   }
 ---
-# Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.
+# Pushing the Limits of Mathematical Reasoning via Off-Policy GRPO-based Continual Post-Training
 <!-- Affliation: KRAFTON & SKT -->
 우리는 여러 추론형 Large Language Models (LLMs) 들의 수학 추론 성능을 더 끌어올리 위해 활용할 수 있는 continual post-training 방법을 제안했습니다.
 기존에 많이 활용되는 on-policy GRPO는 매 step마다 model에서 rollout을 통해 sample을 뽑아야 하기 때문에 rollout 과정에서 많은 시간이 소요될 뿐 아니라, 학습 초기의 base LLM 성능이 좋지 않을 경우 높은 reward를 갖는 좋은 sample 자체를 거의 얻을 수 없다는 문제가 있습니다.
