@@ -177,9 +177,9 @@ Off-policy GRPO 에서는 positive 와는 계속 가까워지게 학습을 하�
 | -------------------------- | -------------- | -------------- |
 | Base model                 | 55.31         | 61.25         |
 | SFT                        | **55.83**         | 57.4         |
-| **Off-policy GRPO**        | 55.21     | **63.02**     |
+| Off-policy GRPO        | 55.21     | **63.02**     |
 
-Off-policy GRPO 방식이 SFT보다 더 뛰어난 성능을 보인 이유는 negative sample들로부터 모델이 적극적으로 멀어지도록 학습을 유도했기 때문입니다. 
+Off-policy GRPO 방식이 SFT보다 종합적으로 더 뛰어난 성능을 보인 이유는 negative sample들로부터 모델이 적극적으로 멀어지도록 학습을 유도했기 때문입니다. 
 기존의 데이터는 모두 positive sample로 고려되고 있지만, 본 실험에서는 majority voting과 Off-policy GRPO를 통해 보다 정확한 정보를 확보하고 이를 바탕으로 negative sample로부터 벗어나도록 유도하여, 더욱 세밀한 지도학습이 가능했습니다.
 
 본 실험을 통해 Off-policy GRPO 방식이 기존 SOTA LLM의 논리적 추론 능력을 한 단계 더 향상시키는 데 매우 효과적임을 입증했습니다. 이 방식은 향후 다양한 추론 도메인에서도 충분히 적용 가능할 것으로 기대됩니다.
