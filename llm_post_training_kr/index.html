@@ -22,7 +22,7 @@
     // getting stuff directly from Jekyll
     let publishedWhen = "July 28, 2025";
     let title = "[KR] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning";
-    let description = "이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.";
+    let description = "이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시 (On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.";
 
     {
       let authorsBibtex = authors.map(e => `${e[0]}, ${e[1]}`).join(" and ");
@@ -76,7 +76,7 @@ ${academicLFI}, "${title}", Blogposts, 2025.
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>[KR] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning | Krafton AI</title>
     <meta name="author" content="Krafton  Blog" />
-    <meta name="description" content="이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다." />
+    <meta name="description" content="이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시 (On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다." />
     <meta name="keywords" content="machine-learning, ml, deep-learning, reinforcement-learning, iclr" />
 
 
@@ -154,7 +154,7 @@ ${academicLFI}, "${title}", Blogposts, 2025.
   <d-front-matter>
     <script async type="text/json">{
       "title": "[KR] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning",
-      "description": "이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.",
+      "description": "이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시 (On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.",
       "published": "July 28, 2025",
       "authors": [
         {
@@ -261,13 +261,13 @@ ${academicLFI}, "${title}", Blogposts, 2025.
 
       <d-title>
         <h1>[KR] Continual Post-Training of LLMs via Off-Policy GRPO for Mathematical Reasoning</h1>
-        <p>이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시(On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.</p>
+        <p>이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온-폴리시 (On-policy) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프-폴리시(Off-policy) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였습니다.</p>
       </d-title>
 
       <d-byline></d-byline>
 
       <d-article>
-        <h1 id="boosting-math-reasoning-in-open-source-llms-via-continual-post-training">Boosting Math Reasoning in Open-Source LLMs via Continual Post-Training</h1>
+        <h1 id="boosting-math-reasoning-in-open-source-llms"><strong>Boosting Math Reasoning in Open-Source LLMs</strong></h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>우리는 여러 추론형 Large Language Models (LLMs) 들의 수학 추론 성능을 더 끌어올리 위해 활용할 수 있는 continual post-training 방법을 제안했습니다.
 기존에 많이 활용되는 on-policy GRPO는 매 step마다 model에서 rollout을 통해 sample을 뽑아야 하기 때문에 rollout 과정에서 많은 시간이 소요될 뿐 아니라, 학습 초기의 base LLM 성능이 좋지 않을 경우 높은 reward를 갖는 좋은 sample 자체를 거의 얻을 수 없다는 문제가 있습니다.
@@ -309,7 +309,7 @@ RLVR은 LLM이 생성한 전체 추론 과정인 chain-of-thought(CoT) 형태의
 
 <p>이렇게 계산된 trajectory level 의 advantage는 응답의 각 토큰 수준에 적용되어 최종적으로 $\hat{A}_{i,t}$로 사용됩니다.</p>
 
-<h2 id="off-policy-reinforcement-learning-with-verifiable-reward-off-policy-rlvr">Off-policy Reinforcement Learning with Verifiable Reward (Off-policy RLVR)</h2>
+<h2 id="off-policy-reinforcement-learning-with-verifiable-reward">Off-policy Reinforcement Learning with Verifiable Reward</h2>
 <h3 id="why-do-we-focus-on-off-policy-rlvr-eg-grpo">Why do we focus on Off-policy RLVR (e.g., GRPO)?</h3>
 <p>앞서 설명한 RLVR 의 경우는 on-policy 로 advantage를 업데이트 하는 방식입니다.
 On-policy 의 경우, 학습하는 모델이 뽑아낸 roll-out trajectory 에 대해 reward 를 계산해 이를 통해 LLM을 업데이트 한다는 것을 의미합니다.</p>
