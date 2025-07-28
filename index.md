@@ -29,11 +29,12 @@ permalink: /
   {% endif %}
 
   <ul class="post-list">
+    {% assign posts_to_show = site.posts %}
     {% if paginator.posts %}
-      {% for post in paginator.posts %}
-    {% else %}
-      {% for post in site.posts %}
+      {% assign posts_to_show = paginator.posts %}
     {% endif %}
+    
+    {% for post in posts_to_show %}
 
     {% if post.external_source == blank %}
       {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
