@@ -267,29 +267,6 @@ ${academicLFI}, "${title}", ICLR Blogposts, 2025.
       <d-byline></d-byline>
 
       <d-article>
-        <d-contents>
-          <nav class="l-text figcaption">
-          <h3>Contents</h3>
-            <div><a href="#why-do-we-focus-on-post-training-for-reasoning">Why do we focus on post-training for reasoning?</a></div>
-            <div><a href="#off-policy-reinforcement-learning-with-verifiable-reward-off-policy-rlvr">Off-policy Reinforcement Learning with Verifiable Reward (Off-policy RLVR)</a></div>
-            <ul>
-              <li><a href="#why-do-we-focus-on-off-policy-rlvr-e-g-grpo">Why do we focus on Off-policy RLVR (e.g., GRPO)?</a></li>
-              <li><a href="#off-policy-grpo-vs-supervised-fine-tuning-sft">Off-policy GRPO vs. Supervised Fine-tuning (SFT)</a></li>
-              <li><a href="#let-s-try-out-our-experiment">Let's try out our experiment</a></li>
-              
-            </ul>
-<div><a href="#proposed-loss-for-rlvr">Proposed Loss for RLVR</a></div>
-            <ul>
-              <li><a href="#considering-all-positive-reasoning-trace">Considering all positive reasoning trace</a></li>
-              <li><a href="#proposed-method">Proposed method</a></li>
-              <li><a href="#let-s-try-out-our-experiment">Let's try out our experiment</a></li>
-              
-            </ul>
-<div><a href="#generalization-across-multiple-models-and-benchmarks">Generalization Across Multiple Models and Benchmarks</a></div>
-            
-          </nav>
-        </d-contents>
-
         <h1 id="beyond-sota-math-llms-continual-post-training-method-from-state-of-the-art-sota-llms-for-math">Beyond SOTA MATH LLMs: Continual Post-training method from state of the art (SOTA) LLMs for MATH.</h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>우리는 여러 추론형 Large Language Models (LLMs) 들의 수학 추론 성능을 더 끌어올리 위해 활용할 수 있는 continual post-training 방법을 제안했습니다.
@@ -300,7 +277,7 @@ ${academicLFI}, "${title}", ICLR Blogposts, 2025.
 또한, 이 학습 방법으로 수학이 아닌 다른 task에서는 기존 모델과 유사한 성능을 유지할 수 있음을 확인했습니다.</p>
 
 <figure style="text-align: center;">
-  <img src="/blog/assets/img/2025-07-28-llm_post_training/radar_charts.png" style="display: inline-block; width: 60%; height: auto;">
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/radar_charts.png" style="display: inline-block; width: 100%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 1: Performance Comparision between base LLMs and base LLMs with our method.</figcaption>
 </figure>
 
@@ -441,7 +418,7 @@ Off-policy 로 준비한 sample 이 teacher sample 인 저희의 case 의 경우
 <p>저희가 준비한 데이터에서 이 문제가 있음을 아래 그림을 통해 확인이 되었습니다.</p>
 
 <figure style="text-align: center;">
-  <img src="/blog/assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png" style="display: inline-block; width: 60%; height: auto;">
+  <img src="/blog/assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png" style="display: inline-block; width: 40%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 2. Statistics that although teacher can generate all positive answers, but base model cannot perfectly answer. </figcaption>
 </figure>
 
