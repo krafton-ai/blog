@@ -22,20 +22,15 @@ toc:
   - name: Why do we focus on post-training for reasoning?
   - name: Off-policy Reinforcement Learning with Verifiable Reward (Off-policy RLVR)
     subsections:
-      - name: Why do we focus on Off-policy RL (e.g., GRPO)?
+      - name: Why do we focus on Off-policy RLVR (e.g., GRPO)?
       - name: Off-policy GRPO vs. Supervised Fine-tuning (SFT)
       - name: Let's try out our experiment
-  - name: Proposed Loss for GRPO
+  - name: Proposed Loss for RLVR
     subsections:
       - name: Considering all positive reasoning trace
       - name: Proposed method
       - name: Let's try out our experiment
-  - name: Dataset curation based on OpenThought3
-    subsections:
-      - name: Difficulty-aware sampling
-      - name: Let's try out our experiment
-  - name: Lessons and Thought
-
+  - name: Generalization Across Multiple Models and Benchmarks
 
 # Below is an example of injecting additional post-specific styles.
 # This is used in the 'Layouts' section of this post.
