@@ -250,7 +250,7 @@ $$
 | Base model                                         | 55.31         | 61.25         |
 | On-policy GRPO                                     | 55.42         | 59.58         |
 | Off-policy GRPO                                    | 55.21         | 63.02         |
-| **Off-policy GRPO (with all positive group bias)** | **56.35**     | **63.85**         |
+| Off-policy GRPO (with all positive group bias) | **56.35**     | **63.85**         |
 
 실험 결과, 제안한 modified off-policy GRPO 방식이 기존 off-policy GRPO 방식뿐만 아니라 On-policy GRPO 방식보다도 더 높은 성능을 기록했습니다. 
 이는 앞서 언급된 바와 같이, On-policy 방식이 가진 base model 성능에 의해 제한된다는 intrinsic한 단점 때문으로 추측됩니다.
