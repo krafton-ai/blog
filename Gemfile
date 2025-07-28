@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '~> 3.4'
+ruby '~> 3.4.0'
 group :jekyll_plugins do
     gem 'classifier-reborn'
     gem 'jekyll'
     gem 'jekyll-archives'
     gem 'jekyll-feed'
-    gem 'jekyll-paginate'
+    gem 'jekyll-paginate-v2'
     gem 'jekyll-scholar'
     gem 'jekyll-sitemap'
     gem 'jekyll-target-blank'
