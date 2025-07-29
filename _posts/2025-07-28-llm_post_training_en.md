@@ -235,7 +235,6 @@ For our experiments, we set $b=0.5$.
 ### Let's try out our experiment
 
 In this experiment, we demonstrate that the proposed method improves performance over the existing offline GRPO. 
-Furthermore, we also conducted additional experiments comparing performance with online GRPO. For online GRPO, we generated 8 rollout samples per problem during training.
 
 We used the exact same experimental setup as in the first experiment, changing only the training objective.
 The same model (OpenThinker3-7B), the same data (2,000 math problems from OpenThoughts3), and the same hyperparameters (learning rate=1e-7, batch size=32, epochs=3, KL coefficient=0.1, 8 samples per problem) were used. 
@@ -246,12 +245,11 @@ Performance was evaluated in the same manner—selecting the best checkpoint usi
 | Method                                     | AIME25-1 Score | AIME25-2 Score |
 | ------------------------------------------ | -------------- | -------------- |
 | Base model                                 | 55.31          | 61.25          |
-| Online GRPO                             | 55.42          | 59.58          |
 | Offline GRPO                            | 55.21          | 63.02          |
 | Offline GRPO (with all positive group bias) | **56.35** | **63.85** |
 
-The experimental results show that the proposed modified offline GRPO outperforms not only the existing offline GRPO but also online GRPO. 
-We believe these results imply the intrinsic limitation of the online method, its performance being limited by the base model, as mentioned earlier.
+The experimental results show that the proposed modified offline GRPO outperforms not only the base model but also the existing offline GRPO. 
+We believe these improvements stem from effectively learning from cases where all teacher samples are positive, which were previously ignored.
 
 In conclusion, we show that the proposed modified loss successfully addresses the limitation of existing offline GRPO in learning from all-positive samples, thereby further improving the model’s reasoning performance.
 We believe this modification can also be effective in domains beyond mathematics.
