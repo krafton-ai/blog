@@ -236,7 +236,6 @@ $$
 ### Let's try out our experiment
 
 본 실험에서는 제안한 방식이 기존 offline GRPO보다 성능 향상에 도움이 되는지 추가로 검증하고자 하였습니다. 
-특히, On-policy GRPO와의 성능 차이도 함께 비교하기 위해 추가적으로 실험을 진행하였습니다. On-policy GRPO 방식의 경우 각 문제마다 동일하게 8개의 샘플을 직접 roll-out하여 학습을 진행했습니다.
 
 실험 환경은 첫 번째 실험과 완벽히 동일하며, 오직 학습 objective만 달라졌습니다. 
 동일한 모델(OpenThinker3-7B), 동일한 데이터(OpenThought3 Math 문제 2,000개), 동일한 hyperparameter(learning rate=1e-7, batch size=32, epoch=3, KL coefficient=0.1, 각 문제당 8개의 샘플)를 사용했습니다. 
@@ -247,12 +246,11 @@ $$
 | Method                                             | AIME25-1 Score | AIME25-2 Score |
 | -------------------------------------------------- | -------------- | -------------- |
 | Base model                                         | 55.31         | 61.25         |
-| On-policy GRPO                                     | 55.42         | 59.58         |
 | Offline GRPO                                    | 55.21         | 63.02         |
 | Offline GRPO (with all positive group bias) | **56.35**     | **63.85**         |
 
-실험 결과, 제안한 modified offline GRPO 방식이 기존 offline GRPO 방식뿐만 아니라 On-policy GRPO 방식보다도 더 높은 성능을 기록했습니다. 
-이는 앞서 언급된 바와 같이, On-policy 방식이 가진 base model 성능에 의해 제한된다는 intrinsic한 단점 때문으로 추측됩니다.
+실험 결과, 제안한 modified offline GRPO 방식이 base model 뿐만 아니라 기존 offline GRPO 방식보다도 더 높은 성능을 기록했습니다. 
+이는 앞서 언급된 바와 같이, 기존 offline GRPO 방식에 더해 all positive sample 들까지 학습했기 때문으로 추측됩니다.
 
 종합적으로, 제안한 modified loss 방식이 기존 offline GRPO의 한계였던 all-positive 샘플의 학습 문제를 성공적으로 극복했으며, 이를 통해 추론 성능을 더욱 강화할 수 있음을 확인했습니다. 
 향후 다른 다양한 추론 도메인에서도 이 방법론이 효과적으로 활용될 가능성이 클 것으로 기대됩니다.
