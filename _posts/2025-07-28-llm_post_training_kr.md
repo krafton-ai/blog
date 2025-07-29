@@ -56,7 +56,7 @@ _styles: >
     margin-top: 0;
     margin-bottom: 0;
   }
-  a[href="https://huggingface.co/KRAFTON"] {
+  a[href="https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c"] {
     color: #007bff !important;
     font-weight: bold;
   }

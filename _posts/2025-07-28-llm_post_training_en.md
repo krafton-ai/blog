@@ -61,6 +61,10 @@ _styles: >
     margin-top: 0;
     margin-bottom: 0;
   }
+  a[href="https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c"] {
+    color: #007bff !important;
+    font-weight: bold;
+  }
 ---
 # Beyond SOTA MATH LLMs: A Continual Post-training Method for State-of-the-Art (SOTA) LLMs in MATH.
 <!-- Affliation: KRAFTON & SKT -->
