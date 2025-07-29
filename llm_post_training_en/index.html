@@ -448,8 +448,7 @@ Specifically, the modified loss equation is as follows:</p>
 
 <h3 id="lets-try-out-our-experiment-1">Let’s try out our experiment</h3>
 
-<p>In this experiment, we demonstrate that the proposed method improves performance over the existing offline GRPO. 
-Furthermore, we also conducted additional experiments comparing performance with online GRPO. For online GRPO, we generated 8 rollout samples per problem during training.</p>
+<p>In this experiment, we demonstrate that the proposed method improves performance over the existing offline GRPO.</p>
 
 <p>We used the exact same experimental setup as in the first experiment, changing only the training objective.
 The same model (OpenThinker3-7B), the same data (2,000 math problems from OpenThoughts3), and the same hyperparameters (learning rate=1e-7, batch size=32, epochs=3, KL coefficient=0.1, 8 samples per problem) were used. 
@@ -472,11 +471,6 @@ The bias term was set to 0.5.</p>
       <td>61.25</td>
     </tr>
     <tr>
-      <td>Online GRPO</td>
-      <td>55.42</td>
-      <td>59.58</td>
-    </tr>
-    <tr>
       <td>Offline GRPO</td>
       <td>55.21</td>
       <td>63.02</td>
@@ -489,8 +483,8 @@ The bias term was set to 0.5.</p>
   </tbody>
 </table>
 
-<p>The experimental results show that the proposed modified offline GRPO outperforms not only the existing offline GRPO but also online GRPO. 
-We believe these results imply the intrinsic limitation of the online method, its performance being limited by the base model, as mentioned earlier.</p>
+<p>The experimental results show that the proposed modified offline GRPO outperforms not only the base model but also the existing offline GRPO. 
+We believe these improvements stem from effectively learning from cases where all teacher samples are positive, which were previously ignored.</p>
 
 <p>In conclusion, we show that the proposed modified loss successfully addresses the limitation of existing offline GRPO in learning from all-positive samples, thereby further improving the model’s reasoning performance.
 We believe this modification can also be effective in domains beyond mathematics.</p>
