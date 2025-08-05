@@ -30,11 +30,7 @@ toc:
       - name: Considering all positive reasoning trace
       - name: Proposed method
       - name: Let's try out our experiment
-  - name: Dataset curation based on OpenThought3
-    subsections:
-      - name: Difficulty-aware sampling
-      - name: Let's try out our experiment
-  - name: Lessons and Thought
+  - name: Generalization Across Multiple Models and Benchmarks
 
 
 # Below is an example of injecting additional post-specific styles.
@@ -66,7 +62,7 @@ _styles: >
     font-weight: bold;
   }
 ---
-# Beyond SOTA MATH LLMs: A Continual Post-training Method for State-of-the-Art (SOTA) LLMs in MATH.
+# <strong>Boosting Math Reasoning in Open-Source LLMs</strong>
 <!-- Affliation: KRAFTON & SKT -->
 We propose a continual post-training method that further enhances the mathematical reasoning performance of various Large Language Models (LLMs). 
 Although online GRPO is a commonly used for post-training, it suffers from long training times and is constrained by the capabilities of the base LLM. 
@@ -76,7 +72,7 @@ As a result, we developed LLMs with specialized performance in mathematics, as i
 We also confirmed that this training method maintains the performance of the original model on tasks other than mathematics.
 
 <figure style="text-align: center;">
-  <img src="{{'assets/img/2025-07-28-llm_post_training/radar_charts.png'| relative_url }}" style="display: inline-block; width: 60%; height: auto;">
+  <img src="{{'assets/img/2025-07-28-llm_post_training/radar_charts.png'| relative_url }}" style="display: inline-block; width: 100%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 1: Performance comparison between base LLMs and our continual post-trained versions.</figcaption>
 </figure>
 
@@ -95,14 +91,14 @@ Group Relative Policy Optimization (GRPO) <d-cite key="guo2025deepseekR1"></d-ci
 The objective function $\mathcal{L}$ can be expressed as follows:
 
 $$
-\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{old}}(O|q)]}\left[
+\mathcal{L}_{GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{old}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
-\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{old}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{old}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]
 $$
 
-where $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,<t})$, and $G$ represents the number of responses in a group. Also, $\pi_{ref}$, $\pi_{\theta}$, and $\pi_{old}$ denote the reference LLM, the LLM being trained, and the LLM from the previous step used for sampling, respectively. $q$ and $\{o_i\}_{i=1}^{G}$ denote the set of questions and the generated rollout trajectories used for training. 
+where $\pi^{i,t} = \pi(o_{i,t}\mid q, o_{i,<t})$, and $G$ represents the number of responses in a group. Also, $\pi_\text{ref}$, $\pi_{\theta}$, and $\pi_\text{old}$ denote the reference LLM, the LLM being trained, and the LLM from the previous step used for sampling, respectively. $q$ and $\{o_i\}_{i=1}^{G}$ denote the set of questions and the generated rollout trajectories used for training. 
 The relative advantage of each response $\hat{A}_i$ is calculated as follows:
 
 $$
@@ -128,25 +124,25 @@ The dataset consists of 16 roll-out trajectories of the teacher model, QwQ-32B, 
 From the dataset, we only utilize math problems.
 We then apply Majority Voting <d-cite key="wangself"></d-cite> to identify potentially correct answers and assign rewards to each trajectory accordingly.
 
-Denoting the teacher model $\theta_{teacher}$ and the random variable for the problems that the teacher has seen as $Q$, we can write the offline GRPO equation as follows:
+Denoting the teacher model $\theta_\text{teacher}$ and the random variable for the problems that the teacher has seen as $Q$, we can write the offline GRPO equation as follows:
 
 $$
-\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{teacher}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
-\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+\min\left[\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}}\hat{A}_{i,t},\text{clip}\left(\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}},1-\epsilon,1+\epsilon\right)\hat{A}_{i,t}\right]
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]
 $$
 
-Since we do not know the likelihood of the trajectory under the teacher model in practice, we assume $\pi_{\theta_{teacher}}^{i,t} = 1$.
-This means that $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_{teacher}}^{i,t}} \le 1$ is always true, $\text{clip}$ can be expressed as $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$.
+Since we do not know the likelihood of the trajectory under the teacher model in practice, we assume $\pi_{\theta_\text{teacher}}^{i,t} = 1$.
+This means that $\frac{\pi_{\theta}^{i,t}}{\pi_{\theta_\text{teacher}}^{i,t}} \le 1$ is always true, $\text{clip}$ can be expressed as $\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)$.
 Therefore, the offline GRPO objective can be approximated as follows: <d-cite key="luffy"></d-cite>
 
 $$
-\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_{teacher}}(O|q)]}\left[
+\mathcal{L}_{Off-GRPO}(\theta) = \mathbb{E}_{[q \sim P(Q), \{o_i\}_{i=1}^{G}\sim \pi_{\theta_\text{teacher}}(O|q)]}\left[
 \frac{1}{G}\sum_{i=1}^{G}\frac{1}{|o_i|}\sum_{t=1}^{|o_i|}\left\{
 \min\left[\pi_{\theta}^{i,t}\hat{A}_{i,t},\max\left(\pi_{\theta}^{i,t},1-\epsilon\right)\hat{A}_{i,t}\right]
--\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_{ref}\right]\right\}
+-\beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right\}
 \right]
 $$
 
@@ -160,7 +156,7 @@ $$
 \mathcal{L}_{SFT}(\theta) = \mathbb{E}_{q \sim P(Q),\,o \sim \pi_{\theta_\text{teacher}}^{(+)}(O|q)}\left[\frac{1}{|o|}\sum_{t=1}^{|o|}\log\pi_{\theta}(o_{t}|q,o_{\lt t}) - \beta\mathbb{D}_{KL}\left[\pi_{\theta}\mid\mid\pi_\text{ref}\right]\right]
 $$
 
-Here, $\pi_{\theta_{teacher}}^{(+)}(O|q)$ indicates that only positive samples from the teacher's generations are selected.
+Here, $\pi_{\theta_\text{teacher}}^{(+)}(O|q)$ indicates that only positive samples from the teacher's generations are selected.
 This supervised learning loss guides the model to follow the distribution of only the positive samples.
 
 When compared with our approximated offline GRPO loss equation, it can be seen that the offline GRPO also leverages negative samples.
@@ -204,7 +200,7 @@ The current objective fails to capture this discrepancy, missing valuable learni
 The figure below shows this discrepancy in our dataset.
 
 <figure style="text-align: center;">
-  <img src="{{'assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png'| relative_url }}" style="display: inline-block; width: 60%; height: auto;">
+  <img src="{{'assets/img/2025-07-28-llm_post_training/plot_ot3_non_all_positive_pie.png'| relative_url }}" style="display: inline-block; width: 40%; height: auto;">
   <figcaption style="font-size: 1em;">Figure 2. Statistics that although teacher can generate all positive answers, but base model cannot perfectly answer. </figcaption>
 </figure>
 
@@ -220,7 +216,7 @@ $$
 \frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
 \left\{
 \min\left[\pi_{\theta}^{i,t}(\hat{A}_{i,t} + b), \max(\pi_{\theta}^{i,t}, 1-\epsilon)(\hat{A}_{i,t} + b)\right]
-- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_\text{ref} \right]
 \right\}
 \right] & \text{if all } r_{i} > 0 \\
 \\
@@ -228,13 +224,13 @@ $$
 \frac{1}{G} \sum\limits_{i=1}^{G} \frac{1}{|o_i|} \sum\limits_{t=1}^{|o_i|}
 \left\{
 \min\left[\pi_{\theta}^{i,t} \hat{A}_{i,t}, \max(\pi_{\theta}^{i,t}, 1-\epsilon)\hat{A}_{i,t}\right]
-- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_{ref} \right]
+- \beta \mathbb{D}_{KL}\left[\pi_{\theta} \,\|\, \pi_\text{ref} \right]
 \right\}
 \right] & \text{otherwise}
 \end{cases}
 $$
 
-For our experiments, we set $b=0.5$.
+For our experiments, we set $b=0.1$.
 
 ### Let's try out our experiment
 
@@ -242,7 +238,7 @@ In this experiment, we demonstrate that the proposed method improves performance
 
 We used the exact same experimental setup as in the first experiment, changing only the training objective.
 The same model (OpenThinker3-7B), the same data (2,000 math problems from OpenThoughts3), and the same hyperparameters (learning rate=1e-7, batch size=32, epochs=3, KL coefficient=0.1, 8 samples per problem) were used. 
-The bias term was set to 0.5.
+The bias term was set to 0.1.
 
 Performance was evaluated in the same manner—selecting the best checkpoint using AIME24 as the validation set and then evaluating final performance on AIME25-1 and AIME25-2. The experimental results are as follows:
 

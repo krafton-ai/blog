@@ -231,7 +231,7 @@ $$
 \end{cases}
 $$
 
-저희는 $b=0.5$ 로 setting 을 하고 실험을 진행했습니다.
+저희는 $b=0.1$ 로 setting 을 하고 실험을 진행했습니다.
 
 ### Let's try out our experiment
 
@@ -239,7 +239,7 @@ $$
 
 실험 환경은 첫 번째 실험과 완벽히 동일하며, 오직 학습 objective만 달라졌습니다. 
 동일한 모델(OpenThinker3-7B), 동일한 데이터(OpenThought3 Math 문제 2,000개), 동일한 hyperparameter(learning rate=1e-7, batch size=32, epoch=3, KL coefficient=0.1, 각 문제당 8개의 샘플)를 사용했습니다. 
-또한 bias term은 0.5로 설정하여 진행했습니다.
+또한 bias term은 0.1로 설정하여 진행했습니다.
 
 성능 평가는 동일한 방식으로 AIME24를 validation set으로 사용하여 best checkpoint를 선정한 후, 최종적으로 AIME25-1과 AIME25-2를 통해 성능을 평가했습니다. 실험 결과는 다음과 같습니다.
 
