@@ -1,7 +1,7 @@
 ---
 layout: distill
 title: "[KR] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning"
-description: 이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온라인 (Online) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프라인 (Offline) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였으며, 학습된 모든 모델의 checkpoint를 HuggingFace를 통해 공개하였습니다.
+description: 이 포스팅에서는 거대 언어 모델(LLM)의 추론 능력을 지속적인 추가 학습(Continual Post-training)을 통해 향상시키는 새로운 접근법을 소개합니다. 기존의 사전 학습(Pre-training)은 광범위한 언어적 지식을 제공하지만, 수학이나 코드 생성과 같은 복잡한 추론 작업에서는 여전히 한계를 드러냅니다. 최근 연구에서는 강화학습 기반의 검증 가능한 보상 기법(RLVR)이 이러한 한계를 어느 정도 해소할 수 있다고 밝혔으나, 현재까지 제안된 방법들은 느리고 제한적인 온라인 (Online) 학습에 의존하고 있습니다. 우리는 이 문제를 해결하기 위해 교사 모델이 생성한 우수한 추론 경로(Trajectory)만을 활용하는 오프라인 (Offline) 학습 방식을 제안하며, 특히 모든 생성된 결과가 긍정적인 경우에도 고품질의 추론 과정을 효과적으로 학습할 수 있도록 GRPO 알고리즘의 새로운 변형 방식을 도입했습니다. 수학적 추론을 대상으로 한 실험 결과, 제안한 방법이 일관된 성능 향상을 보임을 확인하였으며, 학습된 모든 모델의 checkpoint와 학습 코드를 공개하였습니다.
 date: 2025-07-28
 future: true
 htmlwidgets: true
@@ -57,6 +57,10 @@ _styles: >
     margin-bottom: 0;
   }
   a[href="https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c"] {
+    color: #007bff !important;
+    font-weight: bold;
+  }
+  a[href="https://github.com/krafton-ai/Offline-GRPO"] {
     color: #007bff !important;
     font-weight: bold;
   }
@@ -280,4 +284,4 @@ $$
 추가적으로, offline GRPO 방식은 실제 학습 과정에서 직접적인 rollout 없이 teacher model의 trajectory를 재활용하기 때문에 매우 효율적입니다. 
 이러한 효율성 덕분에 기존의 reinforcement learning 방식 대비 계산 자원을 현저히 절약하면서도, 성능은 동등하거나 더 뛰어난 결과를 달성했습니다. 
 따라서 저희가 제안한 continual post-training 방법론은 성능과 효율성을 모두 갖춘 실용적인 접근법으로, 향후 다양한 도메인과 응용 분야에서도 매우 유용하게 활용될 수 있을 것으로 기대합니다.
-마지막으로, 오픈 소스 커뮤니티에 기여하고 연구의 재현성과 확장 가능성을 높이기 위해 [HuggingFace](https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c)에 평가한 모델들을 모두 공개하였습니다. 
+마지막으로, 오픈 소스 커뮤니티에 기여하고 연구의 재현성과 확장 가능성을 높이기 위해 [HuggingFace](https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c)와 [GitHub](https://github.com/krafton-ai/Offline-GRPO)에 평가한 모델들과 학습 코드 모두를 공개하였습니다. 

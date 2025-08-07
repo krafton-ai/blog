@@ -1,7 +1,7 @@
 ---
 layout: distill
 title: "[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning"
-description: In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited online training. We propose an offline alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements.
+description: In this post, we explore a new approach to enhancing the reasoning capabilities of LLMs through continual post-training. While pre-training equips LLMs with broad linguistic knowledge, it often falls short in complex reasoning tasks like math or code. Recent models have shown that Reinforcement Learning with Verifiable Rewards (RLVR) can help bridge this gap, but existing methods rely on slow and limited online training. We propose an offline alternative using teacher-generated trajectories and introduce a novel variant of Group Relative Policy Optimization (GRPO) that better captures high-quality reasoning traces—even when all outputs are positive. Our experiments on mathematical reasoning show that this method leads to consistent improvements, and all trained model checkpoints and the source code have been publicly released.
 date: 2025-07-28
 future: true
 htmlwidgets: true
@@ -58,6 +58,10 @@ _styles: >
     margin-bottom: 0;
   }
   a[href="https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c"] {
+    color: #007bff !important;
+    font-weight: bold;
+  }
+  a[href="https://github.com/krafton-ai/Offline-GRPO"] {
     color: #007bff !important;
     font-weight: bold;
   }
@@ -279,4 +283,4 @@ These results indicate an absence of any catastrophic forgetting during the cont
 Additionally, offline GRPO is highly efficient as it recycles the teacher model's trajectories without direct rollout during the training process. 
 We therefore achieved performance comparable to or better than existing reinforcement learning methods while significantly reducing computational cost.
 Being compute-efficient yet strong in performance, we believe that our proposed continual post-training methodology is attractive to many practitioners, and expect it to be useful across various domains and applications.
-Finally, we have publicly released all the evaluated models on [HuggingFace](https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c) to contribute to the open-source community and to make our results reproducible.
+Finally, to contribute to the open-source community and ensure reproducibility, we have publicly released all the evaluated models on [HuggingFace](https://huggingface.co/collections/KRAFTON/offline-grpo-6888396558def99dd878097c) and source code on [GitHub](https://github.com/krafton-ai/Offline-GRPO).
