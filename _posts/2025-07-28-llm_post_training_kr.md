@@ -258,7 +258,7 @@ $$
 ## Generalization Across Multiple Models and Benchmarks
 
 우리는 제안한 continual post-training 방법론이 더 광범위한 모델과 다양한 벤치마크에서도 일관된 성능 개선을 보이는지 추가적으로 확인해 보았습니다. 
-이를 위해, 앞선 실험의 세팅을 유지한 상태에서 추가적으로 두 가지 모델(Openthinker2-7B, AceReason-Nemetron-1.1-7B)을 사용해 평가했습니다. 
+이를 위해, 추가적으로 두 가지 모델(Openthinker2-7B, AceReason-Nemetron-1.1-7B)을 사용해 평가했습니다. 
 또한 평가를 위해 선택한 벤치마크는 수학 문제 해결 능력을 평가하는 AIME25와 AMC23, 코드 생성 능력을 평가하는 LiveCodeBench, 일반적 추론 능력을 평가하는 GPQA-Diamond, 그리고 사실 검증 성능을 평가하는 IFEval입니다.
 여기서 AIME25와 AMC23, LiveCodeBench, GPQA-Diamond 평가에는 [SkyThought](https://github.com/NovaSky-AI/SkyThought) framework, IFEval 평가엔 [llm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) framework을 사용하였습니다.
 

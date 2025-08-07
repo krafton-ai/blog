@@ -257,7 +257,7 @@ We believe this modification can also be effective in domains beyond mathematics
 ## Generalization Across Multiple Models and Benchmarks
 
 We further investigated whether our proposed continual post-training methodology consistently improves performance across a broader range of models and various benchmarks.
-To this end, we maintained the previous experimental setup and additionally evaluated two additional models: OpenThinker2-7B and AceReason-Nemetron-1.1-7B.
+To this end, we additionally evaluated two additional models: OpenThinker2-7B and AceReason-Nemetron-1.1-7B.
 We also extended our evaluation to a broader range of benchmarks: AIME25 and AMC23 for mathematical problem-solving skills, LiveCodeBench for code generation ability, GPQA-Diamond for general reasoning ability, and IFEval for instruction-following.
 We used the [SkyThought](https://github.com/NovaSky-AI/SkyThought) framework for AIME25, AMC23, LiveCodeBench, and GPQA-Diamond, and the [llm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) for IFEval.
 
