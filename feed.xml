@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-08-05T13:57:18+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-08-07T15:49:21+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
 </subtitle><entry><title type="html">[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning</title><link href="https://krafton-ai.github.io/blog/llm_post_training_en/" rel="alternate" type="text/html" title="[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning" /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training_en/"><![CDATA[<h1 id="boosting-math-reasoning-in-open-source-llms"><strong>Boosting Math Reasoning in Open-Source LLMs</strong></h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>We propose a continual post-training method that further enhances the mathematical reasoning performance of various Large Language Models (LLMs). 
@@ -224,7 +224,7 @@ We believe this modification can also be effective in domains beyond mathematics
 <h2 id="generalization-across-multiple-models-and-benchmarks">Generalization Across Multiple Models and Benchmarks</h2>
 
 <p>We further investigated whether our proposed continual post-training methodology consistently improves performance across a broader range of models and various benchmarks.
-To this end, we maintained the previous experimental setup and additionally evaluated two additional models: OpenThinker2-7B and AceReason-Nemetron-1.1-7B.
+To this end, we additionally evaluated two additional models: OpenThinker2-7B and AceReason-Nemetron-1.1-7B.
 We also extended our evaluation to a broader range of benchmarks: AIME25 and AMC23 for mathematical problem-solving skills, LiveCodeBench for code generation ability, GPQA-Diamond for general reasoning ability, and IFEval for instruction-following.
 We used the <a href="https://github.com/NovaSky-AI/SkyThought">SkyThought</a> framework for AIME25, AMC23, LiveCodeBench, and GPQA-Diamond, and the <a href="https://github.com/EleutherAI/lm-evaluation-harness">llm-evaluation-harness</a> for IFEval.</p>
 
@@ -534,7 +534,7 @@ Offline으로 준비한 sample 이 teacher sample 인 저희의 case 의 경우�
 <h2 id="generalization-across-multiple-models-and-benchmarks">Generalization Across Multiple Models and Benchmarks</h2>
 
 <p>우리는 제안한 continual post-training 방법론이 더 광범위한 모델과 다양한 벤치마크에서도 일관된 성능 개선을 보이는지 추가적으로 확인해 보았습니다. 
-이를 위해, 앞선 실험의 세팅을 유지한 상태에서 추가적으로 두 가지 모델(Openthinker2-7B, AceReason-Nemetron-1.1-7B)을 사용해 평가했습니다. 
+이를 위해, 추가적으로 두 가지 모델(Openthinker2-7B, AceReason-Nemetron-1.1-7B)을 사용해 평가했습니다. 
 또한 평가를 위해 선택한 벤치마크는 수학 문제 해결 능력을 평가하는 AIME25와 AMC23, 코드 생성 능력을 평가하는 LiveCodeBench, 일반적 추론 능력을 평가하는 GPQA-Diamond, 그리고 사실 검증 성능을 평가하는 IFEval입니다.
 여기서 AIME25와 AMC23, LiveCodeBench, GPQA-Diamond 평가에는 <a href="https://github.com/NovaSky-AI/SkyThought">SkyThought</a> framework, IFEval 평가엔 <a href="https://github.com/EleutherAI/lm-evaluation-harness">llm-evaluation-harness</a> framework을 사용하였습니다.</p>
 
