@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-08-07T15:49:21+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-08-07T16:10:28+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
 </subtitle><entry><title type="html">[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning</title><link href="https://krafton-ai.github.io/blog/llm_post_training_en/" rel="alternate" type="text/html" title="[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning" /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training_en/"><![CDATA[<h1 id="boosting-math-reasoning-in-open-source-llms"><strong>Boosting Math Reasoning in Open-Source LLMs</strong></h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>We propose a continual post-training method that further enhances the mathematical reasoning performance of various Large Language Models (LLMs). 
@@ -257,9 +257,9 @@ We used the <a href="https://github.com/NovaSky-AI/SkyThought">SkyThought</a> fr
       <td>Offline GRPO (+bias)</td>
       <td>59.532</td>
       <td>93.516</td>
-      <td>64.995</td>
-      <td>49.684</td>
-      <td>51.66</td>
+      <td>65.435</td>
+      <td>50.947</td>
+      <td>51.14</td>
     </tr>
     <tr>
       <td>Openthinker2-7B</td>
@@ -273,11 +273,11 @@ We used the <a href="https://github.com/NovaSky-AI/SkyThought">SkyThought</a> fr
     <tr>
       <td> </td>
       <td>Offline GRPO (+bias)</td>
-      <td>40.365</td>
-      <td>87.656</td>
-      <td>55.944</td>
-      <td>46.843</td>
-      <td>52.20</td>
+      <td>40.573</td>
+      <td>88.359</td>
+      <td>56.115</td>
+      <td>46.717</td>
+      <td>52.62</td>
     </tr>
     <tr>
       <td>AceReason-Nemetron-1.1-7B</td>
@@ -291,11 +291,11 @@ We used the <a href="https://github.com/NovaSky-AI/SkyThought">SkyThought</a> fr
     <tr>
       <td> </td>
       <td>Offline GRPO (+bias)</td>
-      <td>65.521</td>
-      <td>93.164</td>
-      <td>72.603</td>
-      <td>54.356</td>
-      <td>38.23</td>
+      <td>65.573</td>
+      <td>93.203</td>
+      <td>71.673</td>
+      <td>52.146</td>
+      <td>37.38</td>
     </tr>
   </tbody>
 </table>
@@ -567,9 +567,9 @@ Offline으로 준비한 sample 이 teacher sample 인 저희의 case 의 경우�
       <td>Offline GRPO (+bias)</td>
       <td>59.532</td>
       <td>93.516</td>
-      <td>64.995</td>
-      <td>49.684</td>
-      <td>51.66</td>
+      <td>65.435</td>
+      <td>50.947</td>
+      <td>51.14</td>
     </tr>
     <tr>
       <td>Openthinker2-7B</td>
@@ -583,11 +583,11 @@ Offline으로 준비한 sample 이 teacher sample 인 저희의 case 의 경우�
     <tr>
       <td> </td>
       <td>Offline GRPO (+bias)</td>
-      <td>40.365</td>
-      <td>87.656</td>
-      <td>55.944</td>
-      <td>46.843</td>
-      <td>52.20</td>
+      <td>40.573</td>
+      <td>88.359</td>
+      <td>56.115</td>
+      <td>46.717</td>
+      <td>52.62</td>
     </tr>
     <tr>
       <td>AceReason-Nemetron-1.1-7B</td>
@@ -601,11 +601,11 @@ Offline으로 준비한 sample 이 teacher sample 인 저희의 case 의 경우�
     <tr>
       <td> </td>
       <td>Offline GRPO (+bias)</td>
-      <td>65.521</td>
-      <td>93.164</td>
-      <td>72.603</td>
-      <td>54.356</td>
-      <td>38.23</td>
+      <td>65.573</td>
+      <td>93.203</td>
+      <td>71.673</td>
+      <td>52.146</td>
+      <td>37.38</td>
     </tr>
   </tbody>
 </table>
