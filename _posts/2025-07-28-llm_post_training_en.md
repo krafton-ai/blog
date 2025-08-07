@@ -266,11 +266,11 @@ The experimental results are presented in the table below:
 | Model                          | Method                         | AIME25 | AMC23 | LiveCodeBench | GPQA-Diamond | IFEval |
 |--------------------------------|--------------------------------|--------|-------|---------------|--------------|--------|
 | Openthinker3-7B                | Base                           | 57.292 | 92.617 | 63.968      | 50.947       | 50.09  |
-|                                | Offline GRPO (+bias)        | 59.532 | 93.516 | 64.995      | 49.684       | 51.66  |
+|                                | Offline GRPO (+bias)           | 59.532 | 93.516 | 65.435      | 50.947       | 51.14  |
 | Openthinker2-7B                | Base                           | 39.792 | 88.633 | 56.115        | 45.833          | 53.30 |
-|                                | Offline GRPO (+bias)        | 40.365 | 87.656 | 55.944       | 46.843         | 52.20 |
+|                                | Offline GRPO (+bias)           | 40.573 | 88.359 | 56.115       | 46.717         | 52.62 |
 | AceReason-Nemetron-1.1-7B      | Base                           | 64.635  | 92.930 | 72.383     | 52.462         | 36.02   |
-|                                | Offline GRPO (+bias)        | 65.521  | 93.164 | 72.603   | 54.356        | 38.23   |
+|                                | Offline GRPO (+bias)           | 65.573  | 93.203 | 71.673   | 52.146        | 37.38   |
 
 As the models were post-trained on math data, all models showed consistent performance improvements on the math-related benchmarks (AIME25, AMC23).
 Interestingly, performance in other domains was maintained without degradation compared to the original models, and even showed a slight improvement on the code generation benchmark, LiveCodeBench.
