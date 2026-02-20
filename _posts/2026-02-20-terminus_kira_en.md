@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA"
+description: Introducing Terminus-KIRA, boosting frontier model performance on terminal-bench with minimal harness.
 date: 2026-02-20
 hidden: false
 ---
@@ -139,6 +140,21 @@ Hara Kang
 
 **Advising & Writing**<br>
 Kangwook Lee
+
+---
+
+## Citing Us
+
+If you found Terminus-KIRA useful, please cite us as:
+
+```bibtex
+@misc{terminuskira2026,
+      title={Terminus-KIRA: Terminus-KIRA: Boosting Frontier Model Performance on Terminal-Bench with Minimal Harness },
+      author={Minseok Choi and Wooseong Chung and Yun Jegal and Jiho Jeon and Giyoung Jung and Seungjin Kwon and Gisang Lee and Hyogon Ryu and Myungseok Oh and Hara Kang and Kangwook Lee},
+      year={2026},
+      url={https://github.com/krafton-ai/kira},
+}
+```
 
 ---
 **KRAFTON AI & Ludo Robotics**
