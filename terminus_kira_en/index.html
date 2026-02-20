@@ -1,0 +1,146 @@
+<p><img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg" alt="terminus_kira_1.jpeg" /></p>
+
+<h1 id="how-we-reached-748-on-terminal-bench-with-terminus-kira">How We Reached 74.8% on terminal-bench with Terminus-KIRA</h1>
+
+<h2 id="1-preliminaries-what-is-terminal-bench-what-is-terminus">1. Preliminaries: What is terminal-bench? What is Terminus?</h2>
+
+<p><strong><em>terminal-bench</em></strong> is a benchmark for evaluating how well AI agents can solve real tasks by operating in a terminal environment. Even though it says “terminal,” it includes lots of interesting math/ML problems, so it’s basically: “can AI agents do what ML/AI/SW engineers do :P?” It matters because terminal-based work is where a lot of real engineering happens. Debugging, coding, running experiments, and shipping fixes end-to-end.</p>
+
+<p><strong><em>Terminus</em></strong> is an agent harness that lets an LLM interact with a real terminal (via tmux), observe outputs, and iterate until it decides to submit a final answer. Compared to other “in-machine” harnesses that directly interact with the virtual machine via various tools, Terminus is intentionally minimal: it’s a clean loop of “send command → read buffer → think → repeat”.</p>
+
+<p>Most frontier AI labs equip their models with Terminus 2 and report the evaluation results on terminal-bench. Conceptually it’s very simple and elegant, and it’s tempting to believe that a good enough agent should be able to get the maximum accuracy out of it in the end.</p>
+
+<p>But that needs some fixing…</p>
+
+<h2 id="2-reality">2. Reality</h2>
+
+<p>However, if you actually run various agents on terminal-bench and see how it fails, then you see a lot of interesting failure modes. We developed our in-house agent behavior analyzer, i.e., an automated analysis of what agents are good at, what agents are bad at, and analyzing the success/failure behaviors, etc.</p>
+
+<p>The analysis results are pretty shocking.</p>
+
+<p><strong>TL;DR:</strong> Terminus 2 being an absolutely minimal harness makes highly capable models make so many mistakes that can be avoided.</p>
+
+<p>Here are the most important takeaway messages from our analysis of Terminus 2 + frontier models.</p>
+
+<h3 id="2-1-models-are-optimized-to-assist-humans-not-to-totally-replace-humans">2-1. Models are optimized to “assist” humans, not to totally replace humans</h3>
+
+<p>I think this is the most important message I want to deliver in this report. Models are mostly trained to “assist” us (us = humans) by interacting with us, not to complete the whole task on their own.</p>
+
+<p><strong>- Models tend to submit partial work and “give it a shot”</strong></p>
+
+<p>This is totally fine in the traditional “assistant” setup, and indeed it was a desired behavior. The models show us partial results so that we (humans) can give feedback to them early on. However, this is a bad thing for terminal-bench (or any longer-horizon task) where we expect agents to complete the whole task with perfection. When we put these models in an agent loop that only weakly steers their behaviors toward completion, they still tend to return semi-complete results, especially when the task is very difficult and requires long-horizon planning. Terminus 2 is so minimal that it fails to guide the model to complete the whole task with high probability.</p>
+
+<p><strong>- It tends to show some visuals to humans</strong></p>
+
+<p>This is my favorite finding. Recent LLMs all do have “eyes,” and they are post-trained to believe they have eyes. However, because they still were trained to assist us. When tasks require complex visual inspection or understanding, the models often hand off those hard visual-understanding parts to us, ugh!!! Terminus 2 doesn’t prevent this hand-off behavior.</p>
+
+<h3 id="2-2-models-are-still-not-perfect">2-2. Models are still not perfect</h3>
+
+<p><strong>- Bad self-evaluation (false completion)</strong></p>
+
+<p>Models are really bad at self-evaluating their own output. When the model thinks it’s over, Terminus 2 is designed to ask back “are you sure?” And it usually just says “yup, I am sure :-)” even if their work is not completed or wrong. This causes a lot of “false completion” errors.</p>
+
+<p><strong>- Bad adaptive replanning</strong></p>
+
+<p>There are genuine bottlenecks in today’s frontier models. They are pretty good at planning from the beginning given all the information, but after they observe new information, the models struggle at adjusting their old plans.</p>
+
+<h3 id="2-3-terminal-bench-and-terminus-specific-failure-modes">2-3. Terminal-bench and Terminus-specific failure modes</h3>
+
+<p>For instance, sometimes the problem is vague in terms of how general the solution should be. Should an agent need to build a bullet-proof solution that works in an arbitrarily different environment or it is okay to check if this solution runs well in the current environment? That’s not clear in most cases. Agents tend to find a solution that answers questions in a narrower sense. This would be a question where “good” students would have raised their hand and had a chance to clarify during an exam! However, there is no such luxury for the agents. This makes agents make a random guess between the narrower/stricter problem specifications.</p>
+
+<p>By the TerminalBench2 rule, agents don’t know how much time they are given. This makes some agents install huge libraries and tools, wasting too much time installing dependencies.</p>
+
+<p><strong>There are also two critical specific limitations to Terminus:</strong></p>
+
+<ul>
+  <li>
+    <p>Terminus uses a “push and wait” mechanism, i.e., it sends a command to underlying tmux and waits for a “guessed” runtime. This incurs non-negligible wasted time.</p>
+  </li>
+  <li>
+    <p>Terminus uses an internal tmux screen and reads off its buffer output and passes it to an LLM. The default buffer size is too small, making agents confused when reading large files.</p>
+  </li>
+</ul>
+
+<h2 id="3-introducing-terminus-kira">3. Introducing Terminus-KIRA</h2>
+
+<p>We propose a few simple fixes to the challenges mentioned above.</p>
+
+<p>To address the first challenge, we make a few changes to the agent prompt &amp; add one more tool.</p>
+
+<ul>
+  <li>
+    <p>The agent prompt now clearly specifies that there is only one submission without any human interaction, and the submission is FINAL, etc. This way, we prevent agents from submitting premature answers.</p>
+  </li>
+  <li>
+    <p>To avoid agents expecting humans to help with visual inspection, we literally add this prompt: “You must complete the entire task without any human intervention.”</p>
+  </li>
+  <li>
+    <p>Then, since the tmux buffer cannot forward multimedia files, we add a tool that’s specifically designated for multimedia file reading/comprehension. Thus, LLMs are given two tools: (1) issuing a command, or (2) directly reading/comprehending multimedia files using the backend LLM. We also added the following prompt: “You do NOT have eyes or ears, so you MUST resort to various programmatic/AI tools to understand multimedia files.”
+<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_2.jpeg" alt="terminus_kira_2.jpeg" /></p>
+  </li>
+</ul>
+
+<p>We also attempt to address the second challenge (bad self-evaluation and bad replanning).</p>
+
+<ul>
+  <li>The self-completion-check part now requires a very thorough step-by-step objective self-evaluation of the progress &amp; results. We saw a significant reduction in false completion rate.
+<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_3.jpeg" alt="terminus_kira_3.jpeg" /></li>
+  <li>For replanning, we used a very simple prompting technique to help the model adaptively replan better.</li>
+</ul>
+
+<p>Lastly, we also added a few generic tips to the prompt, for instance:
+<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_4.jpeg" alt="terminus_kira_4.jpeg" />
+The first tip helps the agent come up with a broader/generic solution. The second tip helps the agent avoid installing heavy dependencies, causing timeout errors.</p>
+
+<p>Lastly, we also modified the tmux interface. The tmux interface is updated with a “pull” mechanism. Now the agent doesn’t have to wait excess time if the predicted runtime was larger than the actual runtime. We also increased the tmux buffer size.</p>
+
+<h2 id="4-results">4. Results?</h2>
+
+<p>It works :)</p>
+
+<p><img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_5.jpeg" alt="terminus_kira_5.jpeg" /></p>
+
+<p>We decided to open-source Terminus-KIRA because why not:<br />
+https://github.com/krafton-ai/kira</p>
+
+<p>Enjoy :)</p>
+
+<h2 id="5-takeaway--prediction">5. Takeaway &amp; prediction</h2>
+
+<p><strong>TL;DR:</strong></p>
+
+<ul>
+  <li>Terminus-KIRA boosts frontier models by 10 percentage points</li>
+  <li>Our fixes turn out to be very simple yet very effective.</li>
+  <li>You should use Terminus-KIRA.</li>
+</ul>
+
+<p>And I am sure we will see &gt; 80% on TerminalBench2 sooner or later just with a better harness with the current models. Just my 100 won :-)</p>
+
+<hr />
+
+<h2 id="acknowledgement">Acknowledgement</h2>
+
+<p><em>All authors are listed alphabetically by last name.</em></p>
+
+<p><strong>Agent Design &amp; Experiments</strong><br />
+Minseok Choi<br />
+Wooseong Chung<br />
+Yun Jegal<br />
+Jiho Jeon<br />
+Giyoung Jung<br />
+Seungjin Kwon<br />
+Gisang Lee<br />
+Hyogon Ryu</p>
+
+<p><strong>Project Coordination</strong><br />
+Myungseok Oh</p>
+
+<p><strong>Infrastructure</strong><br />
+Hara Kang</p>
+
+<p><strong>Advising &amp; Writing</strong><br />
+Kangwook Lee</p>
+
+<hr />
+<p><strong>KRAFTON AI &amp; Ludo Robotics</strong></p>
