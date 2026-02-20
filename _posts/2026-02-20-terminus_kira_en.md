@@ -150,7 +150,7 @@ If you found Terminus-KIRA useful, please cite us as:
 ```bibtex
 @misc{terminuskira2026,
       title={Terminus-KIRA: Terminus-KIRA: Boosting Frontier Model Performance on Terminal-Bench with Minimal Harness },
-      author={{KRAFTON AI}},
+      author={{KRAFTON AI} and {Ludo Robotics}},
       year={2026},
       url={https://github.com/krafton-ai/kira},
 }
