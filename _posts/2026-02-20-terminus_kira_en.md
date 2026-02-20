@@ -7,8 +7,6 @@ hidden: false
 
 <img src="{{ 'assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg' | relative_url }}" style="width: 100%; height: auto;">
 
-# How We Reached 74.8% on terminal-bench with Terminus-KIRA
-
 ## 1. Preliminaries: What is terminal-bench? What is Terminus?
 
 ***terminal-bench*** is a benchmark for evaluating how well AI agents can solve real tasks by operating in a terminal environment. Even though it says "terminal," it includes lots of interesting math/ML problems, so it's basically: "can AI agents do what ML/AI/SW engineers do :P?" It matters because terminal-based work is where a lot of real engineering happens. Debugging, coding, running experiments, and shipping fixes end-to-end.
