@@ -147,6 +147,7 @@ Kangwook Lee
 
 If you found Terminus-KIRA useful, please cite us as:
 
+{% raw %}
 ```bibtex
 @misc{terminuskira2026,
       title={Terminus-KIRA: Terminus-KIRA: Boosting Frontier Model Performance on Terminal-Bench with Minimal Harness },
@@ -155,6 +156,7 @@ If you found Terminus-KIRA useful, please cite us as:
       url={https://github.com/krafton-ai/kira},
 }
 ```
+{% endraw %}
 
 ---
 **KRAFTON AI & Ludo Robotics**
