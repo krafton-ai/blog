@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-20T18:35:52+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
-</subtitle><entry><title type="html">[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA</title><link href="https://krafton-ai.github.io/blog/terminus_kira_en/" rel="alternate" type="text/html" title="[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA" /><published>2026-02-20T00:00:00+08:00</published><updated>2026-02-20T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/terminus_kira_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/terminus_kira_en/"><![CDATA[<p><img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg" alt="terminus_kira_1.jpeg" /></p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-20T18:38:40+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
+</subtitle><entry><title type="html">[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA</title><link href="https://krafton-ai.github.io/blog/terminus_kira_en/" rel="alternate" type="text/html" title="[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA" /><published>2026-02-20T00:00:00+08:00</published><updated>2026-02-20T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/terminus_kira_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/terminus_kira_en/"><![CDATA[<p><img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg" style="width: 100%; height: auto;" /></p>
 
 <h1 id="how-we-reached-748-on-terminal-bench-with-terminus-kira">How We Reached 74.8% on terminal-bench with Terminus-KIRA</h1>
 
@@ -77,7 +77,7 @@
   </li>
   <li>
     <p>Then, since the tmux buffer cannot forward multimedia files, we add a tool that’s specifically designated for multimedia file reading/comprehension. Thus, LLMs are given two tools: (1) issuing a command, or (2) directly reading/comprehending multimedia files using the backend LLM. We also added the following prompt: “You do NOT have eyes or ears, so you MUST resort to various programmatic/AI tools to understand multimedia files.”
-<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_2.jpeg" alt="terminus_kira_2.jpeg" /></p>
+<img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_2.jpeg" style="width: 100%; height: auto;" /></p>
   </li>
 </ul>
 
@@ -85,12 +85,12 @@
 
 <ul>
   <li>The self-completion-check part now requires a very thorough step-by-step objective self-evaluation of the progress &amp; results. We saw a significant reduction in false completion rate.
-<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_3.jpeg" alt="terminus_kira_3.jpeg" /></li>
+<img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_3.jpeg" style="width: 100%; height: auto;" /></li>
   <li>For replanning, we used a very simple prompting technique to help the model adaptively replan better.</li>
 </ul>
 
 <p>Lastly, we also added a few generic tips to the prompt, for instance:
-<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_4.jpeg" alt="terminus_kira_4.jpeg" />
+<img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_4.jpeg" style="width: 100%; height: auto;" />
 The first tip helps the agent come up with a broader/generic solution. The second tip helps the agent avoid installing heavy dependencies, causing timeout errors.</p>
 
 <p>Lastly, we also modified the tmux interface. The tmux interface is updated with a “pull” mechanism. Now the agent doesn’t have to wait excess time if the predicted runtime was larger than the actual runtime. We also increased the tmux buffer size.</p>
@@ -99,7 +99,7 @@ The first tip helps the agent come up with a broader/generic solution. The secon
 
 <p>It works :)</p>
 
-<p><img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_5.jpeg" alt="terminus_kira_5.jpeg" /></p>
+<p><img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_5.jpeg" style="width: 100%; height: auto;" /></p>
 
 <p>We decided to open-source Terminus-KIRA because why not:<br />
 https://github.com/krafton-ai/kira</p>

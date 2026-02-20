@@ -124,7 +124,7 @@
   </header>
 
   <article class="post-content">
-    <p><img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg" alt="terminus_kira_1.jpeg"></p>
+    <p><img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg" style="width: 100%; height: auto;"></p>
 
 <h1 id="how-we-reached-748-on-terminal-bench-with-terminus-kira">How We Reached 74.8% on terminal-bench with Terminus-KIRA</h1>
 
@@ -202,7 +202,7 @@
   </li>
   <li>
     <p>Then, since the tmux buffer cannot forward multimedia files, we add a tool that’s specifically designated for multimedia file reading/comprehension. Thus, LLMs are given two tools: (1) issuing a command, or (2) directly reading/comprehending multimedia files using the backend LLM. We also added the following prompt: “You do NOT have eyes or ears, so you MUST resort to various programmatic/AI tools to understand multimedia files.”
-<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_2.jpeg" alt="terminus_kira_2.jpeg"></p>
+<img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_2.jpeg" style="width: 100%; height: auto;"></p>
   </li>
 </ul>
 
@@ -210,13 +210,13 @@
 
 <ul>
   <li>The self-completion-check part now requires a very thorough step-by-step objective self-evaluation of the progress &amp; results. We saw a significant reduction in false completion rate.
-<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_3.jpeg" alt="terminus_kira_3.jpeg">
+<img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_3.jpeg" style="width: 100%; height: auto;">
 </li>
   <li>For replanning, we used a very simple prompting technique to help the model adaptively replan better.</li>
 </ul>
 
 <p>Lastly, we also added a few generic tips to the prompt, for instance:
-<img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_4.jpeg" alt="terminus_kira_4.jpeg">
+<img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_4.jpeg" style="width: 100%; height: auto;">
 The first tip helps the agent come up with a broader/generic solution. The second tip helps the agent avoid installing heavy dependencies, causing timeout errors.</p>
 
 <p>Lastly, we also modified the tmux interface. The tmux interface is updated with a “pull” mechanism. Now the agent doesn’t have to wait excess time if the predicted runtime was larger than the actual runtime. We also increased the tmux buffer size.</p>
@@ -225,7 +225,7 @@ The first tip helps the agent come up with a broader/generic solution. The secon
 
 <p>It works :)</p>
 
-<p><img src="/assets/img/2026-02-20-terminus_kira/terminus_kira_5.jpeg" alt="terminus_kira_5.jpeg"></p>
+<p><img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_5.jpeg" style="width: 100%; height: auto;"></p>
 
 <p>We decided to open-source Terminus-KIRA because why not:<br>
 https://github.com/krafton-ai/kira</p>
