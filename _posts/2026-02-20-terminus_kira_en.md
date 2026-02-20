@@ -1,3 +1,10 @@
+---
+layout: post
+title: "[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA"
+date: 2026-02-20
+hidden: false
+---
+
 ![terminus_kira_1.jpeg](/assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg)
 
 # How We Reached 74.8% on terminal-bench with Terminus-KIRA
