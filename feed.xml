@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-20T18:40:29+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://krafton-ai.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://krafton-ai.github.io/blog/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-02-20T18:50:37+08:00</updated><id>https://krafton-ai.github.io/blog/feed.xml</id><title type="html">Krafton AI</title><subtitle>Home to the Krafton AI Blog
 </subtitle><entry><title type="html">[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA</title><link href="https://krafton-ai.github.io/blog/terminus_kira_en/" rel="alternate" type="text/html" title="[EN] How We Reached 74.8% on terminal-bench with Terminus-KIRA" /><published>2026-02-20T00:00:00+08:00</published><updated>2026-02-20T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/terminus_kira_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/terminus_kira_en/"><![CDATA[<p><img src="/blog/assets/img/2026-02-20-terminus_kira/terminus_kira_1.jpeg" style="width: 100%; height: auto;" /></p>
 
 <h2 id="1-preliminaries-what-is-terminal-bench-what-is-terminus">1. Preliminaries: What is terminal-bench? What is Terminus?</h2>
@@ -142,7 +142,21 @@ Hara Kang</p>
 Kangwook Lee</p>
 
 <hr />
-<p><strong>KRAFTON AI &amp; Ludo Robotics</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning</title><link href="https://krafton-ai.github.io/blog/llm_post_training_en/" rel="alternate" type="text/html" title="[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning" /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training_en/"><![CDATA[<h1 id="boosting-math-reasoning-in-open-source-llms"><strong>Boosting Math Reasoning in Open-Source LLMs</strong></h1>
+
+<h2 id="citing-us">Citing Us</h2>
+
+<p>If you found Terminus-KIRA useful, please cite us as:</p>
+
+<div class="language-bibtex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">@misc</span><span class="p">{</span><span class="nl">terminuskira2026</span><span class="p">,</span>
+      <span class="na">title</span><span class="p">=</span><span class="s">{Terminus-KIRA: Terminus-KIRA: Boosting Frontier Model Performance on Terminal-Bench with Minimal Harness }</span><span class="p">,</span>
+      <span class="na">author</span><span class="p">=</span><span class="s">{Minseok Choi and Wooseong Chung and Yun Jegal and Jiho Jeon and Giyoung Jung and Seungjin Kwon and Gisang Lee and Hyogon Ryu and Myungseok Oh and Hara Kang and Kangwook Lee}</span><span class="p">,</span>
+      <span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">=</span><span class="s">{https://github.com/krafton-ai/kira}</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<hr />
+<p><strong>KRAFTON AI &amp; Ludo Robotics</strong></p>]]></content><author><name></name></author><summary type="html"><![CDATA[Introducing Terminus-KIRA, boosting frontier model performance on terminal-bench with minimal harness.]]></summary></entry><entry><title type="html">[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning</title><link href="https://krafton-ai.github.io/blog/llm_post_training_en/" rel="alternate" type="text/html" title="[EN] Continual Post-Training of LLMs via Offline GRPO for Mathematical Reasoning" /><published>2025-07-28T00:00:00+08:00</published><updated>2025-07-28T00:00:00+08:00</updated><id>https://krafton-ai.github.io/blog/llm_post_training_en</id><content type="html" xml:base="https://krafton-ai.github.io/blog/llm_post_training_en/"><![CDATA[<h1 id="boosting-math-reasoning-in-open-source-llms"><strong>Boosting Math Reasoning in Open-Source LLMs</strong></h1>
 <!-- Affliation: KRAFTON & SKT -->
 <p>We propose a continual post-training method that further enhances the mathematical reasoning performance of various Large Language Models (LLMs). 
 Although online GRPO is a commonly used for post-training, it suffers from long training times and is constrained by the capabilities of the base LLM. 
