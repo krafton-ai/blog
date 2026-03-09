@@ -26,7 +26,10 @@ jobs:
         gem install bundler
         bundle config set --local deployment 'false'
         bundle install
-        
+
+    - name: Clean site
+      run: rm -rf ./_site  
+      
     - name: Build site
       run: bundle exec jekyll build
       
