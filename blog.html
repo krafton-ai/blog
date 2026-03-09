@@ -110,21 +110,259 @@
 
     <!-- Content -->
     <div class="container mt-5">
-      <div class="post">
+      <style>
+  /* ── KRAFTON AI BLOG – Card Layout ── */
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap');
 
-  <div class="header-bar">
+  .krafton-blog {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0f;
+    min-height: 100vh;
+    padding: 0 0 80px;
+    color: #e8e8f0;
+  }
+
+  /* Header */
+  .kb-header {
+    text-align: center;
+    padding: 72px 24px 56px;
+    position: relative;
+  }
+  .kb-header::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, #7b5ea7, #4fc3f7);
+    margin: 24px auto 0;
+  }
+  .kb-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0 0 12px;
+  }
+  .kb-header p {
+    font-size: 1rem;
+    color: #888;
+    font-weight: 300;
+    margin: 0;
+  }
+
+  /* Tag filter bar */
+  .kb-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 0 24px 48px;
+  }
+  .kb-tags a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #888;
+    border: 1px solid #2a2a3a;
+    border-radius: 20px;
+    padding: 5px 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .kb-tags a:hover {
+    color: #c8b8ff;
+    border-color: #7b5ea7;
+    background: rgba(123, 94, 167, 0.08);
+  }
+
+  /* Card Grid */
+  .kb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    list-style: none;
+  }
+
+  /* Card */
+  .kb-card {
+    background: #12121a;
+    border: 1px solid #1e1e2e;
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .kb-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #7b5ea7, #4fc3f7);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .kb-card:hover {
+    transform: translateY(-4px);
+    border-color: #2e2e42;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+  .kb-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Card meta top */
+  .kb-card-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .kb-date {
+    font-size: 0.72rem;
+    color: #555;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .kb-read-time {
+    font-size: 0.72rem;
+    color: #555;
+  }
+  .kb-dot {
+    color: #333;
+    font-size: 0.6rem;
+  }
+
+  /* Card title */
+  .kb-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+  }
+  .kb-card-title a {
+    color: #e8e8f0;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .kb-card-title a:hover {
+    color: #c8b8ff;
+  }
+  .kb-card-title a svg {
+    vertical-align: middle;
+    margin-left: 6px;
+    opacity: 0.4;
+  }
+
+  /* Card description */
+  .kb-card-desc {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.65;
+    margin: 0;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Card tags */
+  .kb-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .kb-tag {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #7b5ea7;
+    background: rgba(123, 94, 167, 0.1);
+    border-radius: 4px;
+    padding: 3px 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .kb-tag:hover {
+    background: rgba(123, 94, 167, 0.2);
+  }
+  .kb-cat {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #4fc3f7;
+    background: rgba(79, 195, 247, 0.08);
+    border-radius: 4px;
+    padding: 3px 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .kb-cat:hover {
+    background: rgba(79, 195, 247, 0.18);
+  }
+
+  /* Pagination */
+  .kb-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .kb-pagination a,
+  .kb-pagination span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #555;
+    border: 1px solid #1e1e2e;
+    border-radius: 6px;
+    padding: 7px 13px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .kb-pagination a:hover {
+    color: #c8b8ff;
+    border-color: #7b5ea7;
+  }
+  .kb-pagination .current {
+    color: #c8b8ff;
+    border-color: #7b5ea7;
+    background: rgba(123, 94, 167, 0.1);
+  }
+
+  @media (max-width: 600px) {
+    .kb-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="krafton-blog">
+  <div class="kb-header">
     <h1>Blog Posts</h1>
-    <h2></h2>
+    
   </div>
 
   
 
-  <ul class="post-list">
+  <ul class="kb-grid">
     
   </ul>
 
+  <!-- Pagination -->
   
-
 </div>
 
     </div>
