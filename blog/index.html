@@ -12,35 +12,267 @@ pagination:
   sort_field: title
   sort_reverse: false
   trail:
-    before: 1 # The number of links before the current page
-    after: 3  # The number of links after the current page
+    before: 1
+    after: 3
 ---
 
-<div class="post">
+<style>
+  /* ── KRAFTON AI BLOG – Card Layout ── */
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap');
 
-  <div class="header-bar">
+  .krafton-blog {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a0f;
+    min-height: 100vh;
+    padding: 0 0 80px;
+    color: #e8e8f0;
+  }
+
+  /* Header */
+  .kb-header {
+    text-align: center;
+    padding: 72px 24px 56px;
+    position: relative;
+  }
+  .kb-header::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, #7b5ea7, #4fc3f7);
+    margin: 24px auto 0;
+  }
+  .kb-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    margin: 0 0 12px;
+  }
+  .kb-header p {
+    font-size: 1rem;
+    color: #888;
+    font-weight: 300;
+    margin: 0;
+  }
+
+  /* Tag filter bar */
+  .kb-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 0 24px 48px;
+  }
+  .kb-tags a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #888;
+    border: 1px solid #2a2a3a;
+    border-radius: 20px;
+    padding: 5px 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .kb-tags a:hover {
+    color: #c8b8ff;
+    border-color: #7b5ea7;
+    background: rgba(123, 94, 167, 0.08);
+  }
+
+  /* Card Grid */
+  .kb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    list-style: none;
+  }
+
+  /* Card */
+  .kb-card {
+    background: #12121a;
+    border: 1px solid #1e1e2e;
+    border-radius: 12px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .kb-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #7b5ea7, #4fc3f7);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .kb-card:hover {
+    transform: translateY(-4px);
+    border-color: #2e2e42;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+  .kb-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Card meta top */
+  .kb-card-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .kb-date {
+    font-size: 0.72rem;
+    color: #555;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+  }
+  .kb-read-time {
+    font-size: 0.72rem;
+    color: #555;
+  }
+  .kb-dot {
+    color: #333;
+    font-size: 0.6rem;
+  }
+
+  /* Card title */
+  .kb-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0;
+  }
+  .kb-card-title a {
+    color: #e8e8f0;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .kb-card-title a:hover {
+    color: #c8b8ff;
+  }
+  .kb-card-title a svg {
+    vertical-align: middle;
+    margin-left: 6px;
+    opacity: 0.4;
+  }
+
+  /* Card description */
+  .kb-card-desc {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.65;
+    margin: 0;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Card tags */
+  .kb-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+  }
+  .kb-tag {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #7b5ea7;
+    background: rgba(123, 94, 167, 0.1);
+    border-radius: 4px;
+    padding: 3px 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .kb-tag:hover {
+    background: rgba(123, 94, 167, 0.2);
+  }
+  .kb-cat {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #4fc3f7;
+    background: rgba(79, 195, 247, 0.08);
+    border-radius: 4px;
+    padding: 3px 8px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .kb-cat:hover {
+    background: rgba(79, 195, 247, 0.18);
+  }
+
+  /* Pagination */
+  .kb-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .kb-pagination a,
+  .kb-pagination span {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #555;
+    border: 1px solid #1e1e2e;
+    border-radius: 6px;
+    padding: 7px 13px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .kb-pagination a:hover {
+    color: #c8b8ff;
+    border-color: #7b5ea7;
+  }
+  .kb-pagination .current {
+    color: #c8b8ff;
+    border-color: #7b5ea7;
+    background: rgba(123, 94, 167, 0.1);
+  }
+
+  @media (max-width: 600px) {
+    .kb-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="krafton-blog">
+  <div class="kb-header">
     <h1>{{ site.blog_name }}</h1>
-    <h2>{{ site.blog_description }}</h2>
+    {% if site.blog_description %}
+      <p>{{ site.blog_description }}</p>
+    {% endif %}
   </div>
 
   {% if site.display_tags %}
-  <div class="tag-list">
-    <ul class="p-0 m-0">
-      {% for tag in site.display_tags %}
-        <li>
-          <i class="fas fa-hashtag fa-sm"></i> <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
-        </li>
-        {% unless forloop.last %}
-          <p>&bull;</p>
-        {% endunless %}
-      {% endfor %}
-    </ul>
+  <div class="kb-tags">
+    {% for tag in site.display_tags %}
+      <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}"># {{ tag }}</a>
+    {% endfor %}
   </div>
   {% endif %}
 
-  <ul class="post-list">
+  <ul class="kb-grid">
     {% for post in paginator.posts %}
-
     {% if post.external_source == blank %}
       {% assign read_time = post.content | number_of_words | divided_by: 180 | plus: 1 %}
     {% else %}
@@ -50,54 +282,67 @@ pagination:
     {% assign tags = post.tags | join: "" %}
     {% assign categories = post.categories | join: "" %}
 
-    <li>
-      <h3>
+    <li class="kb-card">
+      <div class="kb-card-meta-top">
+        <span class="kb-date">{{ post.date | date: '%b %-d, %Y' }}</span>
+        <span class="kb-dot">●</span>
+        <span class="kb-read-time">{{ read_time }} min read</span>
+      </div>
+
+      <h3 class="kb-card-title">
         {% if post.redirect == blank %}
-          <a class="post-title" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         {% else %}
           {% if post.redirect contains '://' %}
-            <a class="post-title" href="{{ post.redirect }}" target="_blank">{{ post.title }}</a>
-            <svg width="2rem" height="2rem" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" class="icon_svg-stroke" stroke="#999" stroke-width="1.5" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
+            <a href="{{ post.redirect }}" target="_blank">{{ post.title }}
+              <svg width="14" height="14" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 13.5v6H5v-12h6m3-3h6v6m0-6-9 9" stroke="#999" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
           {% else %}
-            <a class="post-title" href="{{ post.redirect | relative_url }}">{{ post.title }}</a>
+            <a href="{{ post.redirect | relative_url }}">{{ post.title }}</a>
           {% endif %}
         {% endif %}
       </h3>
-      <p>{{ post.description }}</p>
-      <p class="post-meta">
-        {{ read_time }} min read &nbsp; &middot; &nbsp;
-        {{ post.date | date: '%B %-d, %Y' }}
-        {%- if post.external_source %}
-        &nbsp; &middot; &nbsp; {{ post.external_source }}
-        {%- endif %}
-      </p>
-      <p class="post-tags">
-        <a href="{{ year | prepend: '/blog/' | prepend: site.baseurl}}">
-          <i class="fas fa-calendar fa-sm"></i> {{ year }} </a>
 
-          {% if tags != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for tag in post.tags %}
-            <a href="{{ tag | slugify | prepend: '/blog/tag/' | prepend: site.baseurl}}">
-              <i class="fas fa-hashtag fa-sm"></i> {{ tag }}</a> &nbsp;
-              {% endfor %}
-          {% endif %}
+      {% if post.description %}
+        <p class="kb-card-desc">{{ post.description }}</p>
+      {% endif %}
 
-          {% if categories != "" %}
-          &nbsp; &middot; &nbsp;
-            {% for category in post.categories %}
-            <a href="{{ category | slugify | prepend: '/blog/category/' | prepend: site.baseurl}}">
-              <i class="fas fa-tag fa-sm"></i> {{ category }}</a> &nbsp;
-              {% endfor %}
-          {% endif %}
-    </p>
+      <div class="kb-card-tags">
+        {% if tags != "" %}
+          {% for tag in post.tags %}
+            <a class="kb-tag" href="{{ tag | slugify | prepend: '/blog/tag/' | prepend: site.baseurl }}"># {{ tag }}</a>
+          {% endfor %}
+        {% endif %}
+        {% if categories != "" %}
+          {% for category in post.categories %}
+            <a class="kb-cat" href="{{ category | slugify | prepend: '/blog/category/' | prepend: site.baseurl }}">{{ category }}</a>
+          {% endfor %}
+        {% endif %}
+      </div>
     </li>
-
     {% endfor %}
   </ul>
 
-  {% include pagination.html %}
-
+  <!-- Pagination -->
+  {% if paginator.total_pages > 1 %}
+  <div class="kb-pagination">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}">&larr;</a>
+    {% endif %}
+    {% for i in (1..paginator.total_pages) %}
+      {% if i == paginator.page %}
+        <span class="current">{{ i }}</span>
+      {% elsif i == 1 %}
+        <a href="{{ '/blog' | prepend: site.baseurl }}">{{ i }}</a>
+      {% else %}
+        <a href="{{ site.paginate_path | prepend: site.baseurl | replace: ':num', i }}">{{ i }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | prepend: site.baseurl }}">&rarr;</a>
+    {% endif %}
+  </div>
+  {% endif %}
 </div>
